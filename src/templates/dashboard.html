@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Phishing Detector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📊 Dashboard</h1>
+      <p class="subtitle">Tổng quan hoạt động của engine phát hiện phishing</p>
+    </header>
+
+    <!-- Khung dashboard stub: nội dung sẽ bổ sung sau theo yêu cầu -->
+    <section class="dashboard-grid">
+      <div class="card placeholder">
+        <h3>Thống kê kiểm tra</h3>
+        <p class="hint">Số URL đã kiểm tra, tỷ lệ phishing/legitimate… (sẽ bổ sung)</p>
+      </div>
+      <div class="card placeholder">
+        <h3>Phân bố đặc trưng</h3>
+        <p class="hint">Biểu đồ đặc trưng đóng góp… (sẽ bổ sung)</p>
+      </div>
+      <div class="card placeholder">
+        <h3>Lịch sử kiểm tra</h3>
+        <p class="hint">Danh sách URL gần đây… (sẽ bổ sung)</p>
+      </div>
+      <div class="card placeholder">
+        <h3>Độ tin cậy mô hình</h3>
+        <p class="hint">Accuracy / misclassification rate… (sẽ bổ sung)</p>
+      </div>
+    </section>
+
+    <footer>
+      <nav>
+        <a href="{{ url_for('index') }}">Kiểm tra</a> ·
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      </nav>
+    </footer>
+  </div>
+</body>
+</html>

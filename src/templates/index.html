@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phishing Detector — Perceptron</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🛡️ Phishing Detector</h1>
+      <p class="subtitle">Phát hiện website phishing bằng Perceptron (Học máy — ĐH Duy Tân)</p>
+    </header>
+
+    <form id="check-form" autocomplete="off">
+      <input type="text" id="url-input" name="url"
+             placeholder="Nhập domain cần kiểm tra, vd: duytan.edu.vn"
+             required>
+      <button type="submit" id="check-btn">Kiểm tra</button>
+    </form>
+
+    <div id="loading" class="hidden">Đang phân tích… (trích 30 đặc trưng từ website)</div>
+
+    <section id="result" class="hidden">
+      <!-- Kết quả sẽ được render bởi app.js -->
+    </section>
+
+    <footer>
+      <nav>
+        <a href="{{ url_for('index') }}">Kiểm tra</a> ·
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      </nav>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
