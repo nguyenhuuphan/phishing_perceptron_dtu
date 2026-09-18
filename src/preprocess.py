@@ -19,50 +19,26 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from scipy.io import arff
+
+from feature_contract import (
+    FEATURE_NAMES,
+    RAW_LABEL_TO_INTERNAL,
+    validate_feature_values,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 log = logging.getLogger(__name__)
 
-# 30 đặc trưng theo đúng thứ tự trong file ARFF (không gồm cột nhãn Result)
-FEATURE_COLUMNS = [
-    "having_IP_Address",
-    "URL_Length",
-    "Shortining_Service",
-    "having_At_Symbol",
-    "double_slash_redirecting",
-    "Prefix_Suffix",
-    "having_Sub_Domain",
-    "SSLfinal_State",
-    "Domain_registeration_length",
-    "Favicon",
-    "port",
-    "HTTPS_token",
-    "Request_URL",
-    "URL_of_Anchor",
-    "Links_in_tags",
-    "SFH",
-    "Submitting_to_email",
-    "Abnormal_URL",
-    "Redirect",
-    "on_mouseover",
-    "RightClick",
-    "popUpWidnow",
-    "Iframe",
-    "age_of_domain",
-    "DNSRecord",
-    "web_traffic",
-    "Page_Rank",
-    "Google_Index",
-    "Links_pointing_to_page",
-    "Statistical_report",
-]
+# Backward-compatible name used by the preprocessing pipeline.
+FEATURE_COLUMNS = FEATURE_NAMES
 
 LABEL_COLUMN = "Result"
 
 
 def load_arff(path: Path) -> pd.DataFrame:
     """Đọc file ARFF và trả về DataFrame với 30 đặc trưng + nhãn (kiểu int)."""
+    from scipy.io import arff
+
     log.info("Đang đọc %s ...", path)
     data, meta = arff.loadarff(str(path))
     df = pd.DataFrame(data)
@@ -75,17 +51,19 @@ def load_arff(path: Path) -> pd.DataFrame:
             )
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Đảm bảo đúng thứ tự cột: 30 đặc trưng + nhãn
-    assert list(df.columns) == FEATURE_COLUMNS + [LABEL_COLUMN], (
-        f"Cột không khớp mong đợi: {list(df.columns)}"
-    )
+    expected = FEATURE_COLUMNS + [LABEL_COLUMN]
+    if list(df.columns) != expected:
+        raise ValueError(f"Cột không khớp mong đợi: {list(df.columns)}")
+    validate_feature_values(df)
+    raw_labels = set(df[LABEL_COLUMN].dropna().unique())
+    if not raw_labels <= set(RAW_LABEL_TO_INTERNAL):
+        raise ValueError(f"Nhãn chứa giá trị ngoài {{-1, 1}}: {sorted(raw_labels)}")
     return df
 
 
 def encode_label(series: pd.Series) -> pd.Series:
     """Mã hoá nhãn {-1, 1} -> {0, 1} để dùng cho phân loại nhị phân."""
-    mapping = {-1: 0, 1: 1}
-    encoded = series.map(mapping)
+    encoded = series.map(RAW_LABEL_TO_INTERNAL)
     assert encoded.notna().all(), "Nhãn chứa giá trị ngoài {-1, 1}"
     return encoded.astype(int)
 

@@ -73,24 +73,25 @@ python3 src/demo.py https://duytan.edu.vn/
 ## Kết quả đánh giá (GĐ2)
 
 Perceptron from scratch, `alpha=0.1`, `max_epochs=100`, seed 42, trên tập test
-4898 mẫu:
+4898 mẫu. Nhãn UCI gốc được ánh xạ `-1` (phishing) → `1` và `+1`
+(legitimate) → `0` trong ứng dụng:
 
 | Chỉ số | Giá trị |
 |---|---|
-| Accuracy | 89.06% |
-| **Misclassification rate** | **10.94%** |
-| Precision (phishing) | 89.37% |
-| Recall (phishing) | 91.26% |
-| F1 | 90.30% |
+| Accuracy | 85.46% |
+| **Misclassification rate** | **14.54%** |
+| Precision (phishing) | 92.80% |
+| Recall (phishing) | 72.72% |
+| F1 | 81.54% |
 
 Ma trận nhầm lẫn (hàng = thực tế, cột = dự đoán):
 
 | | legitimate | phishing |
 |---|---|---|
-| **legitimate** | 1866 | 297 |
-| **phishing** | 239 | 2496 |
+| **legitimate** | 2613 | 122 |
+| **phishing** | 590 | 1573 |
 
-> Baseline "luôn đoán phishing" chỉ đạt 55.84% accuracy — Perceptron vượt trội.
+> Baseline "luôn đoán legitimate" đạt 55.84% accuracy trên tập test.
 > Model không hội tụ tuyệt đối (~600 cập nhật/epoch còn lại) vì dữ liệu phishing
 > không tuyến tính tách được; trọng số dao động quanh biên quyết định — đúng
 > hành vi dự kiến của Perceptron với dữ liệu không separable.

@@ -24,6 +24,8 @@ from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
 
+from feature_contract import FEATURE_NAMES
+
 log = logging.getLogger(__name__)
 
 # Danh sách dịch vụ rút gọn URL phổ biến
@@ -108,32 +110,32 @@ class FeatureExtractor:
     def _f_having_IP_Address(self, hostname: str) -> int:
         try:
             ipaddress.ip_address(hostname)
-            return 1
-        except ValueError:
             return -1
+        except ValueError:
+            return 1
 
     def _f_URL_Length(self, url: str) -> int:
         n = len(url)
         if n < 54:
-            return -1
+            return 1
         if 54 <= n <= 75:
             return 0
-        return 1
+        return -1
 
     def _f_Shortining_Service(self, hostname: str) -> int:
-        return 1 if hostname.lower() in SHORTENING_SERVICES else -1
+        return -1 if hostname.lower() in SHORTENING_SERVICES else 1
 
     def _f_having_At_Symbol(self, url: str) -> int:
-        return 1 if "@" in url else -1
+        return -1 if "@" in url else 1
 
     def _f_double_slash_redirecting(self, parsed) -> int:
         # Bỏ scheme, kiểm tra "//" trong path
         path = parsed.path.lstrip("/")
-        return 1 if "//" in path else -1
+        return -1 if "//" in path else 1
 
     def _f_Prefix_Suffix(self, hostname: str) -> int:
         # Dấu "-" hiếm trong domain hợp lệ => nghi phishing
-        return 1 if "-" in hostname else -1
+        return -1 if "-" in hostname else 1
 
     def _f_having_Sub_Domain(self, hostname: str) -> int:
         h = hostname.lower()
@@ -144,19 +146,19 @@ class FeatureExtractor:
                 dots -= 1
                 break
         if dots == 1:
-            return -1
+            return 1
         if dots == 2:
             return 0
-        return 1
+        return -1
 
     def _f_SSLfinal_State(self, parsed, ssl_state: str) -> int:
         if parsed.scheme != "https":
-            return 1  # không dùng https => nghi phishing
+            return -1  # không dùng https => nghi phishing
         if ssl_state == "valid":
-            return -1
-        if ssl_state == "invalid":
             return 1
-        return 0  # không xác định được
+        if ssl_state == "invalid":
+            return 0
+        return -1
 
     def _f_Domain_registeration_length(self) -> int:
         # Cần WHOIS; mặc định trả 0 (không xác định) và đánh dấu gần đúng
@@ -172,17 +174,17 @@ class FeatureExtractor:
             return 0
         href = link["href"]
         if href.startswith("http"):
-            return 1 if urlparse(href).hostname != hostname else -1
-        return -1  # favicon tương đối => cùng domain
+            return -1 if urlparse(href).hostname != hostname else 1
+        return 1  # favicon tương đối => cùng domain
 
     def _f_port(self, parsed) -> int:
         port = parsed.port
         if port is None:
             port = 443 if parsed.scheme == "https" else 80
-        return -1 if port in STANDARD_PORTS else 1
+        return 1 if port in STANDARD_PORTS else -1
 
     def _f_HTTPS_token(self, hostname: str) -> int:
-        return 1 if "https" in hostname.lower() else -1
+        return -1 if "https" in hostname.lower() else 1
 
     # ------------------------------------------------------------------ #
     # Các đặc trưng Abnormal / HTML                                       #
@@ -215,10 +217,10 @@ class FeatureExtractor:
             self.approx("Request_URL")
             return 0
         if ratio < 0.22:
-            return -1
+            return 1
         if ratio < 0.61:
             return 0
-        return 1
+        return -1
 
     def _f_URL_of_Anchor(self, soup, hostname: str) -> int:
         ratio = self._external_ratio(soup, hostname, "a", "href")
@@ -226,10 +228,10 @@ class FeatureExtractor:
             self.approx("URL_of_Anchor")
             return 0
         if ratio < 0.31:
-            return -1
+            return 1
         if ratio < 0.67:
             return 0
-        return 1
+        return -1
 
     def _f_Links_in_tags(self, soup, hostname: str) -> int:
         ratios = []
@@ -242,10 +244,10 @@ class FeatureExtractor:
             return 0
         ratio = sum(ratios) / len(ratios)
         if ratio < 0.17:
-            return -1
+            return 1
         if ratio < 0.81:
             return 0
-        return 1
+        return -1
 
     def _f_SFH(self, soup, hostname: str) -> int:
         if soup is None:
@@ -253,7 +255,7 @@ class FeatureExtractor:
             return 0
         forms = soup.find_all("form")
         if not forms:
-            return -1  # không có form => không nguy hiểm
+            return 1  # không có form => không nguy hiểm
         bad = 0
         for f in forms:
             action = f.get("action", "").strip()
@@ -263,10 +265,10 @@ class FeatureExtractor:
                 bad += 1
         ratio = bad / len(forms)
         if ratio == 0:
-            return -1
+            return 1
         if ratio < 0.5:
             return 0
-        return 1
+        return -1
 
     def _f_Submitting_to_email(self, soup) -> int:
         if soup is None:
@@ -275,8 +277,8 @@ class FeatureExtractor:
         for f in soup.find_all("form"):
             action = f.get("action", "")
             if "mailto:" in action.lower():
-                return 1
-        return -1
+                return -1
+        return 1
 
     def _f_Abnormal_URL(self, hostname: str) -> int:
         # Cần WHOIS để đối chiếu danh tính; ước lượng bằng cách kiểm tra
@@ -291,32 +293,33 @@ class FeatureExtractor:
         history = getattr(resp, "history", [])
         n = len(history)
         if n <= 1:
-            return -1
-        if n <= 4:
-            return 0
-        return 1
+            return 1
+        # The ARFF domain is {0, 1}, although the prose defines three levels.
+        # Preserve the observed domain and collapse every non-legitimate level
+        # to 0 until a historically equivalent mapping can be demonstrated.
+        return 0
 
     def _f_on_mouseover(self, soup) -> int:
         if soup is None:
             self.approx("on_mouseover")
             return 0
         scripts = " ".join(s.string or "" for s in soup.find_all("script"))
-        return 1 if "onmouseover" in scripts.lower() else -1
+        return -1 if "onmouseover" in scripts.lower() else 1
 
     def _f_RightClick(self, soup) -> int:
         if soup is None:
             self.approx("RightClick")
             return 0
         scripts = " ".join(s.string or "" for s in soup.find_all("script"))
-        return 1 if "contextmenu" in scripts.lower() or \
-            "button==2" in scripts.lower() else -1
+        return -1 if "contextmenu" in scripts.lower() or \
+            "button==2" in scripts.lower() else 1
 
     def _f_popUpWidnow(self, soup) -> int:
         if soup is None:
             self.approx("popUpWidnow")
             return 0
         scripts = " ".join(s.string or "" for s in soup.find_all("script"))
-        return 1 if "window.open" in scripts.lower() else -1
+        return -1 if "window.open" in scripts.lower() else 1
 
     def _f_Iframe(self, soup) -> int:
         if soup is None:
@@ -325,8 +328,8 @@ class FeatureExtractor:
         for fr in soup.find_all("iframe"):
             fb = fr.get("frameborder", "0")
             if str(fb) == "0" or fr.get("border") == "0":
-                return 1
-        return -1
+                return -1
+        return 1
 
     # ------------------------------------------------------------------ #
     # Các đặc trưng Domain                                                #
@@ -336,7 +339,7 @@ class FeatureExtractor:
         return 0
 
     def _f_DNSRecord(self, hostname: str) -> int:
-        return -1 if self._resolve_ip(hostname) else 1
+        return 1 if self._resolve_ip(hostname) else -1
 
     def _f_web_traffic(self) -> int:
         self.approx("web_traffic")
@@ -350,7 +353,7 @@ class FeatureExtractor:
         # Ước lượng: nếu DNS trỏ về IP công cộng hợp lệ thì coi như có khả năng
         # được index; đây là giá trị gần đúng.
         self.approx("Google_Index")
-        return -1 if self._resolve_ip(hostname) else 1
+        return 1 if self._resolve_ip(hostname) else -1
 
     def _f_Links_pointing_to_page(self) -> int:
         self.approx("Links_pointing_to_page")
@@ -361,7 +364,7 @@ class FeatureExtractor:
         Tra cứu URL trong danh sách đen PhishTank (API miễn phí, cần app_key).
 
         Returns:
-            1 nếu URL có trong danh sách đen, -1 nếu không,
+            -1 nếu URL có trong danh sách đen, 1 nếu không,
             None nếu không truy vấn được (thiếu key / lỗi mạng).
         """
         if not self.phishtank_key:
@@ -375,7 +378,7 @@ class FeatureExtractor:
             data = resp.json()
             results = data.get("results", {})
             in_tank = bool(results.get("in_phish_tank", False))
-            return 1 if in_tank else -1
+            return -1 if in_tank else 1
         except Exception as exc:  # noqa: BLE001
             log.debug("PhishTank lỗi: %s", exc)
             return None
@@ -457,16 +460,7 @@ class FeatureExtractor:
         return res
 
 
-FEATURE_ORDER = [
-    "having_IP_Address", "URL_Length", "Shortining_Service", "having_At_Symbol",
-    "double_slash_redirecting", "Prefix_Suffix", "having_Sub_Domain",
-    "SSLfinal_State", "Domain_registeration_length", "Favicon", "port",
-    "HTTPS_token", "Request_URL", "URL_of_Anchor", "Links_in_tags", "SFH",
-    "Submitting_to_email", "Abnormal_URL", "Redirect", "on_mouseover",
-    "RightClick", "popUpWidnow", "Iframe", "age_of_domain", "DNSRecord",
-    "web_traffic", "Page_Rank", "Google_Index", "Links_pointing_to_page",
-    "Statistical_report",
-]
+FEATURE_ORDER = FEATURE_NAMES
 
 
 def extract_to_vector(url: str, timeout: float = 15.0) -> tuple[FeatureResult, list[int]]:

@@ -9,7 +9,7 @@ Quy trình:
      theo đúng tiêu chí trong giáo trình, kèm confusion matrix,
      precision / recall / F1.
 
-Nhãn gốc trong dataset: 1 = phishing (lừa đảo), -1 = legitimate (hợp lệ).
+Nhãn gốc trong dataset: -1 = phishing (lừa đảo), 1 = legitimate (hợp lệ).
 Sau tiền xử lý, nhãn được mã hoá thành 0 (legitimate) / 1 (phishing).
 """
 
@@ -23,11 +23,18 @@ import numpy as np
 import pandas as pd
 
 from perceptron import Perceptron
+from feature_contract import (
+    FEATURE_DOMAINS,
+    FEATURE_NAMES,
+    INTERNAL_CLASS_NAMES,
+    RAW_LABEL_TO_INTERNAL,
+    SCHEMA_VERSION,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 log = logging.getLogger(__name__)
 
-CLASS_NAMES = {0: "legitimate", 1: "phishing"}
+CLASS_NAMES = INTERNAL_CLASS_NAMES
 
 
 def load_data(out_dir: Path):
@@ -105,6 +112,11 @@ def main() -> None:
 
     # Lưu kết quả
     result = {
+        "schema_version": SCHEMA_VERSION,
+        "feature_names": FEATURE_NAMES,
+        "feature_domains": {name: sorted(values) for name, values in FEATURE_DOMAINS.items()},
+        "raw_label_to_internal": {str(k): v for k, v in RAW_LABEL_TO_INTERNAL.items()},
+        "internal_class_names": {str(k): v for k, v in INTERNAL_CLASS_NAMES.items()},
         "alpha": args.alpha,
         "max_epochs": args.max_epochs,
         "seed": args.seed,
