@@ -17,6 +17,7 @@ Bộ dữ liệu Phishing là phân loại nhị phân (2 lớp: hợp lệ / l�
 """
 
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -56,13 +57,20 @@ class Perceptron:
         # K hàng, mỗi hàng n_features+1 (gồm bias). Khởi tạo nhỏ ngẫu nhiên.
         self.W = rng.normal(scale=0.01, size=(self.n_classes, n_features + 1))
 
-    def fit(self, X: np.ndarray, y: np.ndarray) -> "Perceptron":
+    def fit(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        epoch_callback: Callable[[int, int, "Perceptron"], None] | None = None,
+    ) -> "Perceptron":
         """
         Huấn luyện Perceptron.
 
         Args:
             X: ma trận đặc trưng (n_samples, n_features), giá trị {-1,0,1}.
             y: nhãn (n_samples,), giá trị trong [0, n_classes).
+            epoch_callback: hàm được gọi sau mỗi epoch với
+                (epoch, số cập nhật, model), dùng để đánh giá checkpoint.
 
         Returns:
             self.
@@ -76,6 +84,7 @@ class Perceptron:
         if y.min() < 0 or y.max() >= self.n_classes:
             raise ValueError(f"Nhãn phải nằm trong [0, {self.n_classes})")
 
+        self.history.clear()
         self.n_features = X.shape[1]
         self._init_weights(self.n_features)
         Xb = self._add_bias(X)  # (n, d+1)
@@ -92,6 +101,8 @@ class Perceptron:
                     n_updates += 1
             self.history.append(n_updates)
             log.debug("epoch %d: %d cập nhật", epoch, n_updates)
+            if epoch_callback is not None:
+                epoch_callback(epoch, n_updates, self)
             if n_updates == 0:
                 log.info("Hội tụ tại epoch %d (không còn cập nhật)", epoch)
                 break

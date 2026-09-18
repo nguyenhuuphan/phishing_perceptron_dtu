@@ -87,28 +87,36 @@ xuất hiện đầu tiên và 64 vector mang nhãn mâu thuẫn. Các trường
 được giữ nguyên để không tự ý sửa ground truth, nhưng toàn bộ nhóm vẫn chỉ nằm
 trong một split.
 
-Perceptron from scratch dùng `alpha=0.1`, `max_epochs=100`, seed 42. Nhãn UCI
-được ánh xạ `-1` (phishing) → `1` và `+1` (legitimate) → `0` trong ứng
-dụng:
+Perceptron from scratch dùng `alpha=0.1`, seed 42. Quy trình chọn model:
 
-| Chỉ số | Validation | Test |
+1. Huấn luyện tối đa 100 epoch trên 7.742 mẫu train.
+2. Sau mỗi epoch, đo misclassification trên validation; nếu hòa, chọn epoch
+   sớm hơn.
+3. Epoch 9 có validation misclassification thấp nhất nên được chọn.
+4. Khởi tạo lại model, trộn xác định train + validation (9.397 mẫu), huấn luyện
+   đúng 9 epoch rồi đánh giá test đúng một lần.
+
+Nhãn UCI được ánh xạ `-1` (phishing) → `1` và `+1` (legitimate) → `0` trong
+ứng dụng. Cột validation dưới đây thuộc checkpoint dùng để chọn epoch; cột test
+thuộc model cuối đã refit trên train + validation:
+
+| Chỉ số | Validation chọn epoch | Test cuối |
 |---|---:|---:|
-| Accuracy | 80,30% | 82,51% |
-| **Misclassification rate** | **19,70%** | **17,49%** |
-| Precision (phishing) | 69,97% | 72,77% |
-| Recall (phishing) | 97,27% | 96,73% |
-| F1 | 81,39% | 83,06% |
+| Accuracy | 87,31% | 90,89% |
+| **Misclassification rate** | **12,69%** | **9,11%** |
+| Precision (phishing) | 79,82% | 89,89% |
+| Recall (phishing) | 95,50% | 89,52% |
+| F1 | 86,96% | 89,71% |
 
-Ma trận nhầm lẫn trên test (hàng = thực tế, cột = dự đoán):
+Ma trận nhầm lẫn cuối trên test (hàng = thực tế, cột = dự đoán):
 
 | | legitimate | phishing |
 |---|---:|---:|
-| **legitimate** | 657 | 266 |
-| **phishing** | 24 | 711 |
+| **legitimate** | 849 | 74 |
+| **phishing** | 77 | 658 |
 
-Baseline luôn đoán legitimate đạt 55,67% accuracy trên test. Validation hiện
-mới được báo cáo độc lập; bước tiếp theo sẽ dùng validation để chọn trạng thái
-model/epoch trước khi đánh giá test cuối cùng.
+Baseline luôn đoán legitimate đạt 55,67% accuracy trên test. Tập test không
+tham gia chọn epoch hoặc cập nhật trọng số.
 
 ## Ghi chú GĐ3 — trích đặc trưng từ URL thật
 

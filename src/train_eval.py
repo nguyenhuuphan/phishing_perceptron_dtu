@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Huấn luyện và đánh giá Perceptron trên split không trùng vector đặc trưng.
+Chọn checkpoint Perceptron bằng validation và đánh giá cuối trên test.
 
-Model chỉ học từ train. Validation và test được báo cáo riêng; việc chọn epoch
-bằng validation sẽ được thực hiện ở bước tiếp theo.
+Giai đoạn chọn model chỉ sử dụng train và validation. Sau khi chọn epoch có
+misclassification validation thấp nhất, model cuối được huấn luyện lại trên
+train + validation đúng số epoch đó. Test chỉ được dùng cho đánh giá cuối.
 """
 
 import argparse
@@ -28,6 +29,7 @@ log = logging.getLogger(__name__)
 
 CLASS_NAMES = INTERNAL_CLASS_NAMES
 SPLIT_NAMES = ("train", "validation", "test")
+SELECTION_METRIC = "misclassification_rate"
 
 
 def load_data(output_directory: Path) -> dict[str, tuple[np.ndarray, np.ndarray]]:
@@ -87,6 +89,53 @@ def evaluate(model: Perceptron, x: np.ndarray, y: np.ndarray) -> dict:
     }
 
 
+def select_checkpoint(
+    model: Perceptron,
+    x_train: np.ndarray,
+    y_train: np.ndarray,
+    x_validation: np.ndarray,
+    y_validation: np.ndarray,
+) -> dict:
+    """Chọn epoch có validation misclassification thấp nhất; hòa thì lấy sớm nhất."""
+    best_key = None
+    best_weights = None
+    best_evaluation = None
+    best_epoch = None
+    validation_history = []
+
+    def inspect_epoch(epoch: int, updates: int, current_model: Perceptron) -> None:
+        nonlocal best_key, best_weights, best_evaluation, best_epoch
+        evaluation = evaluate(current_model, x_validation, y_validation)
+        score = evaluation["metrics"][SELECTION_METRIC]
+        validation_history.append(
+            {
+                "epoch": epoch,
+                "updates": updates,
+                "misclassification_rate": score,
+                "accuracy": evaluation["metrics"]["accuracy"],
+                "f1": evaluation["metrics"]["f1"],
+            }
+        )
+        candidate_key = (score, epoch)
+        if best_key is None or candidate_key < best_key:
+            best_key = candidate_key
+            best_epoch = epoch
+            best_weights = current_model.W.copy()
+            best_evaluation = evaluation
+
+    model.fit(x_train, y_train, epoch_callback=inspect_epoch)
+    if best_weights is None:
+        raise RuntimeError("Không tạo được checkpoint từ quá trình huấn luyện")
+
+    model.W = best_weights
+    return {
+        "best_epoch": best_epoch,
+        "best_validation_evaluation": best_evaluation,
+        "updates_per_epoch": model.history.copy(),
+        "validation_history": validation_history,
+    }
+
+
 def log_evaluation(name: str, evaluation: dict) -> None:
     matrix = np.asarray(evaluation["confusion_matrix"])
     log.info("%s - confusion matrix (hàng=thực tế, cột=dự đoán):", name)
@@ -98,14 +147,15 @@ def log_evaluation(name: str, evaluation: dict) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Huấn luyện và đánh giá Perceptron.")
+    parser = argparse.ArgumentParser(
+        description="Chọn checkpoint và đánh giá Perceptron."
+    )
     parser.add_argument(
         "--out-dir",
         type=Path,
         default=Path(__file__).resolve().parent.parent / "output",
-        help="Thư mục chứa dữ liệu đã xử lý và nơi lưu kết quả",
     )
-    parser.add_argument("--alpha", type=float, default=0.1, help="Tốc độ học")
+    parser.add_argument("--alpha", type=float, default=0.1)
     parser.add_argument("--max-epochs", type=int, default=100)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
@@ -122,24 +172,51 @@ def main() -> None:
         )
 
     x_train, y_train = datasets["train"]
-    model = Perceptron(
+    x_validation, y_validation = datasets["validation"]
+    x_test, y_test = datasets["test"]
+
+    selection_model = Perceptron(
         n_classes=2,
         alpha=args.alpha,
         max_epochs=args.max_epochs,
         random_state=args.seed,
     )
-    model.fit(x_train, y_train)
+    selection = select_checkpoint(
+        selection_model,
+        x_train,
+        y_train,
+        x_validation,
+        y_validation,
+    )
+    best_epoch = selection["best_epoch"]
+    validation_evaluation = selection["best_validation_evaluation"]
+    log.info(
+        "Checkpoint được chọn: epoch %d, validation %s=%.4f",
+        best_epoch,
+        SELECTION_METRIC,
+        validation_evaluation["metrics"][SELECTION_METRIC],
+    )
+    log_evaluation("validation tại checkpoint", validation_evaluation)
 
-    evaluations = {
-        split_name: evaluate(model, *datasets[split_name])
-        for split_name in ("validation", "test")
-    }
-    for split_name, evaluation in evaluations.items():
-        log_evaluation(split_name, evaluation)
+    x_final = np.vstack([x_train, x_validation])
+    y_final = np.concatenate([y_train, y_validation])
+    permutation = np.random.default_rng(args.seed).permutation(len(y_final))
+    x_final = x_final[permutation]
+    y_final = y_final[permutation]
 
-    manifest_path = args.out_dir / "split_manifest.json"
-    split_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    final_model = Perceptron(
+        n_classes=2,
+        alpha=args.alpha,
+        max_epochs=best_epoch,
+        random_state=args.seed,
+    )
+    final_model.fit(x_final, y_final)
+    test_evaluation = evaluate(final_model, x_test, y_test)
+    log_evaluation("test cuối", test_evaluation)
 
+    split_manifest = json.loads(
+        (args.out_dir / "split_manifest.json").read_text(encoding="utf-8")
+    )
     result = {
         "schema_version": SCHEMA_VERSION,
         "feature_names": FEATURE_NAMES,
@@ -155,21 +232,32 @@ def main() -> None:
         "data_split": split_manifest,
         "training": {
             "alpha": args.alpha,
-            "max_epochs": args.max_epochs,
+            "max_epochs_examined": args.max_epochs,
             "seed": args.seed,
-            "epochs_run": len(model.history),
-            "updates_per_epoch": model.history,
+            "selection_metric": SELECTION_METRIC,
+            "tie_break": "earliest_epoch",
+            "best_epoch": best_epoch,
+            "selection_train_rows": len(y_train),
+            "selection_validation_rows": len(y_validation),
+            "selection_updates_per_epoch": selection["updates_per_epoch"],
+            "validation_history": selection["validation_history"],
+            "final_fit_rows": len(y_final),
+            "final_fit_sources": ["train", "validation"],
+            "final_fit_epochs": len(final_model.history),
+            "final_fit_updates_per_epoch": final_model.history,
         },
-        "evaluations": evaluations,
+        "evaluations": {
+            "validation": validation_evaluation,
+            "test": test_evaluation,
+        },
     }
 
-    results_path = args.out_dir / "eval_results.json"
-    results_path.write_text(
+    (args.out_dir / "eval_results.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    np.save(args.out_dir / "weights.npy", model.W)
-    log.info("Đã lưu eval_results.json và weights.npy vào %s", args.out_dir)
+    np.save(args.out_dir / "weights.npy", final_model.W)
+    log.info("Đã lưu model cuối và báo cáo vào %s", args.out_dir)
 
 
 if __name__ == "__main__":
