@@ -1,0 +1,51 @@
+{
+  "source_file": "Phishing_Dataset_full.arff",
+  "strategy": "grouped_stratified_by_30_feature_vector",
+  "seed": 42,
+  "ratios": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "total_rows": 11055,
+  "unique_feature_vectors": 5785,
+  "exact_duplicate_rows_beyond_first": 5206,
+  "conflicting_label_feature_vectors": 64,
+  "cross_split_feature_vector_overlap": {
+    "train__validation": 0,
+    "train__test": 0,
+    "validation__test": 0
+  },
+  "splits": {
+    "train": {
+      "target_ratio": 0.7,
+      "rows": 7742,
+      "actual_ratio": 0.7003165988240615,
+      "class_counts": {
+        "legitimate": 4312,
+        "phishing": 3430
+      },
+      "unique_feature_vectors": 4045
+    },
+    "validation": {
+      "target_ratio": 0.15,
+      "rows": 1655,
+      "actual_ratio": 0.14970601537765718,
+      "class_counts": {
+        "legitimate": 922,
+        "phishing": 733
+      },
+      "unique_feature_vectors": 870
+    },
+    "test": {
+      "target_ratio": 0.15,
+      "rows": 1658,
+      "actual_ratio": 0.14997738579828132,
+      "class_counts": {
+        "legitimate": 923,
+        "phishing": 735
+      },
+      "unique_feature_vectors": 870
+    }
+  }
+}

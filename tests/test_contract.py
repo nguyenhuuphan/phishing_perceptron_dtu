@@ -52,12 +52,16 @@ class FeatureContractTests(unittest.TestCase):
             validate_feature_values(frame)
 
     def test_processed_artifacts_use_the_contract_mapping(self):
-        train = pd.read_csv(ROOT / "output" / "train_processed.csv")
-        test = pd.read_csv(ROOT / "output" / "test_processed.csv")
-        self.assertEqual(train["Result"].value_counts().to_dict(), {0: 3422, 1: 2735})
-        self.assertEqual(test["Result"].value_counts().to_dict(), {0: 2735, 1: 2163})
+        expected_counts = {
+            "train": {0: 4312, 1: 3430},
+            "validation": {0: 922, 1: 733},
+            "test": {0: 923, 1: 735},
+        }
+        for split_name, counts in expected_counts.items():
+            frame = pd.read_csv(ROOT / "output" / f"{split_name}_processed.csv")
+            self.assertEqual(frame["Result"].value_counts().to_dict(), counts)
 
-    def test_saved_weights_reproduce_reported_confusion_matrix(self):
+    def test_saved_weights_reproduce_reported_test_confusion_matrix(self):
         test = pd.read_csv(ROOT / "output" / "test_processed.csv")
         x = test[FEATURE_NAMES].to_numpy(dtype=float)
         y = test["Result"].to_numpy(dtype=int)
@@ -69,7 +73,10 @@ class FeatureContractTests(unittest.TestCase):
             for actual in range(2)
         ]
         report = json.loads((ROOT / "output" / "eval_results.json").read_text("utf-8"))
-        self.assertEqual(matrix, report["confusion_matrix"])
+        self.assertEqual(
+            matrix,
+            report["evaluations"]["test"]["confusion_matrix"],
+        )
 
 
 if __name__ == "__main__":

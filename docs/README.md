@@ -12,11 +12,10 @@ Phishing Websites (UCI).
 ```
 Nhom3_Phishing_Perceptron/
 ├── data/
-│   ├── Training.arff               # 6157 mẫu (tách từ dataset gốc UCI)
-│   ├── Testing.arff                # 4898 mẫu
+│   ├── Phishing_Dataset_full.arff  # 11055 mẫu UCI, nguồn duy nhất để chia dữ liệu
 │   └── Phishing Websites Features.docx  # tài liệu định nghĩa 30 đặc trưng
 ├── src/
-│   ├── preprocess.py               # GĐ1: ARFF -> DataFrame, kiểm tra chất lượng
+│   ├── preprocess.py               # GĐ1: kiểm tra + group split train/validation/test
 │   ├── perceptron.py               # GĐ2: Perceptron from scratch (giáo trình 2.2)
 │   ├── train_eval.py               # GĐ2: huấn luyện + đánh giá misclassification
 │   ├── feature_extractor.py        # GĐ3: trích 30 đặc trưng từ URL thật (+ PhishTank)
@@ -25,7 +24,7 @@ Nhom3_Phishing_Perceptron/
 │   ├── app.py                      # Web MVP (Flask): /, /api/check, /dashboard
 │   ├── templates/                  # index.html, dashboard.html
 │   └── static/                     # style.css, app.js
-├── output/                         # dữ liệu đã xử lý, trọng số, kết quả đánh giá
+├── output/                         # 3 split, manifest, trọng số và kết quả đánh giá
 └── docs/README.md
 ```
 
@@ -72,29 +71,44 @@ python3 src/demo.py https://duytan.edu.vn/
 
 ## Kết quả đánh giá (GĐ2)
 
-Perceptron from scratch, `alpha=0.1`, `max_epochs=100`, seed 42, trên tập test
-4898 mẫu. Nhãn UCI gốc được ánh xạ `-1` (phishing) → `1` và `+1`
-(legitimate) → `0` trong ứng dụng:
+Nguồn dữ liệu là toàn bộ 11.055 mẫu trong `Phishing_Dataset_full.arff`. Split
+được tạo lại với seed 42 theo tỷ lệ 70/15/15. Mọi hàng có cùng vector 30 đặc
+trưng được giữ trong cùng một tập, vì vậy số vector trùng giữa train,
+validation và test bằng 0:
 
-| Chỉ số | Giá trị |
-|---|---|
-| Accuracy | 85.46% |
-| **Misclassification rate** | **14.54%** |
-| Precision (phishing) | 92.80% |
-| Recall (phishing) | 72.72% |
-| F1 | 81.54% |
+| Tập | Số mẫu | Legitimate | Phishing | Vector đặc trưng duy nhất |
+|---|---:|---:|---:|---:|
+| Train | 7.742 | 4.312 | 3.430 | 4.045 |
+| Validation | 1.655 | 922 | 733 | 870 |
+| Test | 1.658 | 923 | 735 | 870 |
 
-Ma trận nhầm lẫn (hàng = thực tế, cột = dự đoán):
+Dữ liệu có 5.785 vector đặc trưng duy nhất, 5.206 hàng trùng hoàn toàn sau lần
+xuất hiện đầu tiên và 64 vector mang nhãn mâu thuẫn. Các trường hợp mâu thuẫn
+được giữ nguyên để không tự ý sửa ground truth, nhưng toàn bộ nhóm vẫn chỉ nằm
+trong một split.
+
+Perceptron from scratch dùng `alpha=0.1`, `max_epochs=100`, seed 42. Nhãn UCI
+được ánh xạ `-1` (phishing) → `1` và `+1` (legitimate) → `0` trong ứng
+dụng:
+
+| Chỉ số | Validation | Test |
+|---|---:|---:|
+| Accuracy | 80,30% | 82,51% |
+| **Misclassification rate** | **19,70%** | **17,49%** |
+| Precision (phishing) | 69,97% | 72,77% |
+| Recall (phishing) | 97,27% | 96,73% |
+| F1 | 81,39% | 83,06% |
+
+Ma trận nhầm lẫn trên test (hàng = thực tế, cột = dự đoán):
 
 | | legitimate | phishing |
-|---|---|---|
-| **legitimate** | 2613 | 122 |
-| **phishing** | 590 | 1573 |
+|---|---:|---:|
+| **legitimate** | 657 | 266 |
+| **phishing** | 24 | 711 |
 
-> Baseline "luôn đoán legitimate" đạt 55.84% accuracy trên tập test.
-> Model không hội tụ tuyệt đối (~600 cập nhật/epoch còn lại) vì dữ liệu phishing
-> không tuyến tính tách được; trọng số dao động quanh biên quyết định — đúng
-> hành vi dự kiến của Perceptron với dữ liệu không separable.
+Baseline luôn đoán legitimate đạt 55,67% accuracy trên test. Validation hiện
+mới được báo cáo độc lập; bước tiếp theo sẽ dùng validation để chọn trạng thái
+model/epoch trước khi đánh giá test cuối cùng.
 
 ## Ghi chú GĐ3 — trích đặc trưng từ URL thật
 

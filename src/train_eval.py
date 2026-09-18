@@ -1,28 +1,19 @@
 #!/usr/bin/env python3
 """
-train_eval.py — Giai đoạn 2 (GĐ2): Huấn luyện và đánh giá Perceptron.
+Huấn luyện và đánh giá Perceptron trên split không trùng vector đặc trưng.
 
-Quy trình:
-  1. Đọc dữ liệu đã xử lý (output/train_processed.csv, output/test_processed.csv).
-  2. Huấn luyện Perceptron (from scratch, src/perceptron.py) trên tập train.
-  3. Đánh giá trên tập test bằng tỷ lệ phân loại sai (misclassification rate)
-     theo đúng tiêu chí trong giáo trình, kèm confusion matrix,
-     precision / recall / F1.
-
-Nhãn gốc trong dataset: -1 = phishing (lừa đảo), 1 = legitimate (hợp lệ).
-Sau tiền xử lý, nhãn được mã hoá thành 0 (legitimate) / 1 (phishing).
+Model chỉ học từ train. Validation và test được báo cáo riêng; việc chọn epoch
+bằng validation sẽ được thực hiện ở bước tiếp theo.
 """
 
 import argparse
 import json
 import logging
-import os
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-from perceptron import Perceptron
 from feature_contract import (
     FEATURE_DOMAINS,
     FEATURE_NAMES,
@@ -30,35 +21,47 @@ from feature_contract import (
     RAW_LABEL_TO_INTERNAL,
     SCHEMA_VERSION,
 )
+from perceptron import Perceptron
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 log = logging.getLogger(__name__)
 
 CLASS_NAMES = INTERNAL_CLASS_NAMES
+SPLIT_NAMES = ("train", "validation", "test")
 
 
-def load_data(out_dir: Path):
-    train = pd.read_csv(out_dir / "train_processed.csv")
-    test = pd.read_csv(out_dir / "test_processed.csv")
-    X_train = train.drop(columns=["Result"]).to_numpy(dtype=float)
-    y_train = train["Result"].to_numpy(dtype=int)
-    X_test = test.drop(columns=["Result"]).to_numpy(dtype=float)
-    y_test = test["Result"].to_numpy(dtype=int)
-    return X_train, y_train, X_test, y_test
+def load_data(output_directory: Path) -> dict[str, tuple[np.ndarray, np.ndarray]]:
+    """Đọc ba tập đã xử lý và giữ đúng thứ tự 30 đặc trưng."""
+    datasets = {}
+    expected_columns = FEATURE_NAMES + ["Result"]
+    for split_name in SPLIT_NAMES:
+        path = output_directory / f"{split_name}_processed.csv"
+        frame = pd.read_csv(path)
+        if list(frame.columns) != expected_columns:
+            raise ValueError(f"Schema không đúng trong {path}")
+        x = frame[FEATURE_NAMES].to_numpy(dtype=float)
+        y = frame["Result"].to_numpy(dtype=int)
+        datasets[split_name] = (x, y)
+    return datasets
 
 
 def confusion_matrix(y_true, y_pred, n_classes=2):
-    cm = np.zeros((n_classes, n_classes), dtype=int)
-    for t, p in zip(y_true, y_pred):
-        cm[t, p] += 1
-    return cm
+    matrix = np.zeros((n_classes, n_classes), dtype=int)
+    for actual, predicted in zip(y_true, y_pred):
+        matrix[actual, predicted] += 1
+    return matrix
 
 
-def metrics(cm):
-    """cm[i][j]: thực tế i, dự đoán j. Lớp 1 = phishing (positive)."""
-    tn, fp, fn, tp = cm[0, 0], cm[0, 1], cm[1, 0], cm[1, 1]
-    accuracy = (tp + tn) / cm.sum()
-    misclass_rate = (fp + fn) / cm.sum()
+def metrics(matrix):
+    """matrix[i][j]: thực tế i, dự đoán j; lớp 1 là phishing."""
+    tn, fp, fn, tp = (
+        matrix[0, 0],
+        matrix[0, 1],
+        matrix[1, 0],
+        matrix[1, 1],
+    )
+    total = int(matrix.sum())
+    accuracy = (tp + tn) / total
     precision = tp / (tp + fp) if (tp + fp) else 0.0
     recall = tp / (tp + fn) if (tp + fn) else 0.0
     f1 = (
@@ -67,16 +70,35 @@ def metrics(cm):
         else 0.0
     )
     return {
-        "accuracy": accuracy,
-        "misclassification_rate": misclass_rate,
-        "precision": precision,
-        "recall": recall,
-        "f1": f1,
+        "accuracy": float(accuracy),
+        "misclassification_rate": float(1.0 - accuracy),
+        "precision": float(precision),
+        "recall": float(recall),
+        "f1": float(f1),
     }
 
 
+def evaluate(model: Perceptron, x: np.ndarray, y: np.ndarray) -> dict:
+    predicted = model.predict(x)
+    matrix = confusion_matrix(y, predicted)
+    return {
+        "confusion_matrix": matrix.tolist(),
+        "metrics": metrics(matrix),
+    }
+
+
+def log_evaluation(name: str, evaluation: dict) -> None:
+    matrix = np.asarray(evaluation["confusion_matrix"])
+    log.info("%s - confusion matrix (hàng=thực tế, cột=dự đoán):", name)
+    log.info("            %-12s %-12s", CLASS_NAMES[0], CLASS_NAMES[1])
+    log.info("%-12s %-12d %-12d", CLASS_NAMES[0], matrix[0, 0], matrix[0, 1])
+    log.info("%-12s %-12d %-12d", CLASS_NAMES[1], matrix[1, 0], matrix[1, 1])
+    for metric_name, value in evaluation["metrics"].items():
+        log.info("%s %-24s %.4f", name, metric_name, value)
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Huấn luyện & đánh giá Perceptron.")
+    parser = argparse.ArgumentParser(description="Huấn luyện và đánh giá Perceptron.")
     parser.add_argument(
         "--out-dir",
         type=Path,
@@ -84,50 +106,69 @@ def main() -> None:
         help="Thư mục chứa dữ liệu đã xử lý và nơi lưu kết quả",
     )
     parser.add_argument("--alpha", type=float, default=0.1, help="Tốc độ học")
-    parser.add_argument("--max-epochs", type=int, default=100, help="Số epoch tối đa")
-    parser.add_argument("--seed", type=int, default=42, help="Seed ngẫu nhiên")
+    parser.add_argument("--max-epochs", type=int, default=100)
+    parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 
-    X_train, y_train, X_test, y_test = load_data(args.out_dir)
-    log.info(
-        "Train: %d mẫu (%d phishing) | Test: %d mẫu (%d phishing)",
-        len(y_train), int((y_train == 1).sum()),
-        len(y_test), int((y_test == 1).sum()),
+    datasets = load_data(args.out_dir)
+    for split_name in SPLIT_NAMES:
+        _, labels = datasets[split_name]
+        log.info(
+            "%s: %d mẫu (%d phishing, %d legitimate)",
+            split_name,
+            len(labels),
+            int((labels == 1).sum()),
+            int((labels == 0).sum()),
+        )
+
+    x_train, y_train = datasets["train"]
+    model = Perceptron(
+        n_classes=2,
+        alpha=args.alpha,
+        max_epochs=args.max_epochs,
+        random_state=args.seed,
     )
+    model.fit(x_train, y_train)
 
-    clf = Perceptron(n_classes=2, alpha=args.alpha,
-                     max_epochs=args.max_epochs, random_state=args.seed)
-    clf.fit(X_train, y_train)
+    evaluations = {
+        split_name: evaluate(model, *datasets[split_name])
+        for split_name in ("validation", "test")
+    }
+    for split_name, evaluation in evaluations.items():
+        log_evaluation(split_name, evaluation)
 
-    y_pred = clf.predict(X_test)
-    cm = confusion_matrix(y_test, y_pred)
-    m = metrics(cm)
+    manifest_path = args.out_dir / "split_manifest.json"
+    split_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
-    log.info("Confusion matrix (hàng = thực tế, cột = dự đoán):")
-    log.info("            %-12s %-12s", CLASS_NAMES[0], CLASS_NAMES[1])
-    log.info("%-12s %-12d %-12d", CLASS_NAMES[0], cm[0, 0], cm[0, 1])
-    log.info("%-12s %-12d %-12d", CLASS_NAMES[1], cm[1, 0], cm[1, 1])
-    for k, v in m.items():
-        log.info("%-24s %.4f", k, v)
-
-    # Lưu kết quả
     result = {
         "schema_version": SCHEMA_VERSION,
         "feature_names": FEATURE_NAMES,
-        "feature_domains": {name: sorted(values) for name, values in FEATURE_DOMAINS.items()},
-        "raw_label_to_internal": {str(k): v for k, v in RAW_LABEL_TO_INTERNAL.items()},
-        "internal_class_names": {str(k): v for k, v in INTERNAL_CLASS_NAMES.items()},
-        "alpha": args.alpha,
-        "max_epochs": args.max_epochs,
-        "seed": args.seed,
-        "converged_epoch": len(clf.history),
-        "updates_per_epoch": clf.history,
-        "confusion_matrix": cm.tolist(),
-        "metrics": m,
+        "feature_domains": {
+            name: sorted(values) for name, values in FEATURE_DOMAINS.items()
+        },
+        "raw_label_to_internal": {
+            str(key): value for key, value in RAW_LABEL_TO_INTERNAL.items()
+        },
+        "internal_class_names": {
+            str(key): value for key, value in INTERNAL_CLASS_NAMES.items()
+        },
+        "data_split": split_manifest,
+        "training": {
+            "alpha": args.alpha,
+            "max_epochs": args.max_epochs,
+            "seed": args.seed,
+            "epochs_run": len(model.history),
+            "updates_per_epoch": model.history,
+        },
+        "evaluations": evaluations,
     }
-    with open(args.out_dir / "eval_results.json", "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
-    np.save(args.out_dir / "weights.npy", clf.W)
+
+    results_path = args.out_dir / "eval_results.json"
+    results_path.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    np.save(args.out_dir / "weights.npy", model.W)
     log.info("Đã lưu eval_results.json và weights.npy vào %s", args.out_dir)
 
 
